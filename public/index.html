@@ -52,7 +52,7 @@
     <div  class="container">
     	<p id="timing">&nbsp;</p>
     	<div id="bcontent" class="row">
-
+            <table id="grid"></table>
 
         </div><!-- /row -->
  
@@ -72,16 +72,38 @@
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
+<script src="/js/grid.locale-en.js"></script>
+<script src="/js/jquery.jqGrid.min.js"></script>
 <script> 
  
 $(function(){
-	
-    $.getJSON( "team.json", function( data ) {
-            console.log(data);
+	   var myData = {};
+    $.ajax({
+        type : 'GET',
+        datatype : 'json',
+        url : 'team.json',
+        success : function (myData) {
+             $("#grid").jqGrid({
+                data : myData,
+                datatype: 'local',
+                gridView : true,
+                colName: ['Name', "Birthday"],
+                colModel : [{name : 'name', index : 'name', key : true, width:50},
+                            {name : 'birthday', index : 'bdate', width:100}],
+                //pager: '#pager',
+                multiSort : true,
+                sortname: 'id, name asc',
+                viewrecords: false,
+                sortorder: "asc",
+                caption : "jqGrid Example"
+            });
+            console.log(myData);
+        }
     });
 
 });
 
 </script> 
+
 </body>
 </html>
