@@ -1,0 +1,35 @@
+[
+    {
+        "id": 1,
+        "name": "Al Sahin",
+        "bdate": "8/5/1983",
+        "parties": [
+            {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2014",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            },
+            {
+                "part_id": 2,
+                "theme": "new app launching party",
+                "date": "3/28/2014",
+                "time": "8:30 pm",
+                "where": "Dubliner Bar"
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "name": "Greg Porter",
+        "bdate": "",
+        "parties": {
+            "part_id": 1,
+            "theme": "new app launching party",
+            "date": "3/28/2014",
+            "time": "8:30 pm",
+            "where": "Dubliner Bar"
+        }
+    }
+]
