@@ -77,13 +77,14 @@
 <script> 
  
 $(function(){
-	   var myData = {};
+	var myData = {};
+    var $grid = $("#grid");
     $.ajax({
         type : 'GET',
         datatype : 'json',
         url : 'team.json',
         success : function (myData) {
-             $("#grid").jqGrid({
+             $grid.jqGrid({
                 data : myData,
                 datatype: 'local',
                 gridView : true,
@@ -97,11 +98,23 @@ $(function(){
                 sortname: 'bdate, name asc',
                 viewrecords: false,
                 sortorder: "asc",
-                caption : "Party App"
+                caption : "Party App",
+                height : "auto"
             });
-            console.log(myData);
         }
     });
+
+
+    //Info about binding a click event of the Grid
+    //It seems like this is a JQGrid event
+    //http://stackoverflow.com/a/15836149
+    $grid.bind("jqGridBeforeSelectRow", function (e, rowid, eventOriginal) {
+        debugger;
+        console.log("You clicked " + rowid);
+    });
+
+    //The following link might show how we can populate the table from a Backbone Collection
+    //http://stackoverflow.com/q/10956983
 
 });
 
