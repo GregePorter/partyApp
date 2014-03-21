@@ -87,15 +87,17 @@ $(function(){
                 data : myData,
                 datatype: 'local',
                 gridView : true,
-                colName: ['Name', "Birthday"],
-                colModel : [{name : 'name', index : 'name', key : true, width:50},
-                            {name : 'birthday', index : 'bdate', width:100}],
+                colNames: ['Name', 'Age', 'Birthday', 'Party Date'],
+                colModel : [{name : 'name', index : 'name', key : true, resizeable : true},
+                            {name : 'bdate', index : 'bdate', resizeable : true},
+                            {name : 'bdate', index : 'bdate', resizeable : true},
+                            {name : 'party.date', index : 'party.date', resizeable : true}],
                 //pager: '#pager',
                 multiSort : true,
-                sortname: 'id, name asc',
+                sortname: 'bdate, name asc',
                 viewrecords: false,
                 sortorder: "asc",
-                caption : "jqGrid Example"
+                caption : "Party App"
             });
             console.log(myData);
         }

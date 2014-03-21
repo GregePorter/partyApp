@@ -14,3 +14,8 @@ partyApp
 -	IE10 is target browser
 -	Try to avoid using any id’s unless there is no other way
 -	Try to use bootstrap as a style guide, and only use custom classes where needed.
+
+TODO
+1) Experiment with how JQGrid works
+	1.1) Is it easy to populate the grid using a template or just with the data
+		This will help us determine the best way to define our models, collections, views
