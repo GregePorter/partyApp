@@ -3,33 +3,96 @@
         "id": 1,
         "name": "Al Sahin",
         "bdate": "8/5/1983",
-        "parties": [
-            {
+        "party": {
                 "part_id": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2014",
                 "time": "8 pm",
                 "where": "802 S. 14th st."
-            },
-            {
-                "part_id": 2,
-                "theme": "new app launching party",
-                "date": "3/28/2014",
-                "time": "8:30 pm",
-                "where": "Dubliner Bar"
             }
-        ]
     },
     {
         "id": 2,
-        "name": "Greg Porter",
-        "bdate": "",
-        "parties": {
-            "part_id": 1,
-            "theme": "new app launching party",
-            "date": "3/28/2014",
-            "time": "8:30 pm",
-            "where": "Dubliner Bar"
-        }
+        "name": "Mr. T",
+        "bdate": "8/5/1985",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2015",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },
+    {
+        "id": 3,
+        "name": "Mr. Pink",
+        "bdate": "8/5/1984",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2016",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },
+    {
+        "id": 4,
+        "name": "Mr. Green",
+        "bdate": "8/5/1983",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2017",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },    
+    {
+        "id": 5,
+        "name": "Mr. Blue",
+        "bdate": "8/5/1982",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2018",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },
+    {
+        "id": 6,
+        "name": "Walrus",
+        "bdate": "8/5/1981",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2014",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },
+    {
+        "id": 7,
+        "name": "Egg Man",
+        "bdate": "8/5/1980",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2014",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
+    },
+    {
+        "id": 8,
+        "name": "Mr. Tati",
+        "bdate": "8/5/1979",
+        "party": {
+                "part_id": 1,
+                "theme": "new apt move-in party",
+                "date": "3/22/2014",
+                "time": "8 pm",
+                "where": "802 S. 14th st."
+            }
     }
 ]
