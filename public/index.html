@@ -77,7 +77,14 @@
 <script> 
  
 $(function(){
-	   var myData = {};
+
+//Model: Person {id, name, bdate, parties}
+//Collection: Team[Person, Person, ...]
+//PersonView: a row of the grid table
+//GridView: the top table lists all persons and their information
+    //Edit BDay and Edit Parties buttons gets appended in the GridView
+    
+	//var myData = {};
     $.ajax({
         type : 'GET',
         datatype : 'json',
