@@ -126,8 +126,8 @@ $(function(){
         
         el: $("#grid"),
         
-        //el: 'table', //tagName ??
-        //id: 'grid'
+        //tagName: 'table', //tagName ??
+        //id: 'grid',
         
         initialize: function(){
             console.log("TeamView init");
@@ -142,11 +142,14 @@ $(function(){
             $(this.el).jqGrid({
                 //data : this.collection.toJSON(), ///???
                 datatype: 'local',
-                colNames: ['Name', 'Age', 'Birthday', 'Party Date'],
-                colModel : [{name : 'name', index : 'name', key : true, resizeable : true},
+                colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
+                colModel : [
+                            {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
+                            {name : 'name', index : 'name', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
-                            {name : 'party.date', index : 'party.date', resizeable : true}],
+                            {name : 'party.date', index : 'party.date', resizeable : true}
+                ],
                 sortname: 'bdate, name asc',
                 sortorder: "asc",
                 caption : "Party App",
@@ -155,8 +158,10 @@ $(function(){
 
             this.collection.each(function(model){
                 console.log(model.get("id"));
-                //var monView = new MonthRowView({model : mon});
+
                 $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON()); // $(this.el) ???????? this.$el
+                //this.$el.addRowData(model.get("id"), model.toJSON());
+                //$(this.el).jqGrid("addRowData", model.get("id"), model.toJSON());
 
             }); 
 
@@ -170,7 +175,8 @@ $(function(){
             console.log("clicked");
             console.log(rowid);
             
-            this.$el.addRowData(rowid, this.collection.get(rowid).toJSON());
+            //testing this.$el.addRowData => this should work when populating the table
+            //this.$el.addRowData(rowid, this.collection.get(rowid).toJSON());
 
             var rowData = this.$el.getRowData(parseInt(rowid)); //get the data for the row which was clicked
             console.log(rowData);
@@ -182,6 +188,12 @@ $(function(){
         //testing listenTo "add" event
         testAdd: function(){
             console.log("model added");
+        },
+
+        updateRow : function (e, rowid, eventOriginal) {
+
+            this.$el.setRowData(rowid, this.collection.get(rowid).toJSON());  //jqgrid.setRow(Person.id, e.attributes)
+                                                                           //e.attributes is the data to put in the row
         }
 
     });
@@ -196,6 +208,7 @@ $(function(){
             //console.log(options);
             teamView = new TeamView({collection: coll});
             
+            //console.log(teamView.render().el);
             //$('#bcontent').html(teamView.render().el);
         }
     });
@@ -217,7 +230,7 @@ $(function(){
  
         initialize: function(){
             //re-render PersonView on any "change" on the Person model 
-            this.listenTo(this.model, 'change',  this.render);
+            //this.listenTo(this.model, 'change',  this.render);
         },
         
         render: function() {
@@ -230,11 +243,26 @@ $(function(){
         
         events: {
             //select my Month of Birth on click
-            "click":  "myMethod"
+            "change":  "updateRow",
+            "click button.save":  "savePerson"
         },
         //change model with the selected Month of Birth
-        myMethod: function(){
-            console.log("clicked");
+        updateRow : function (event) {
+            console.log("update triggered");
+            // Apply the change to the model
+            var target = event.target;
+            var change = {};
+            change[target.name] = target.value;
+            this.model.set(change);
+            //debugger;
+            //this.$el.setRowData(rowid, this.collection.get(rowid).toJSON()); 
+            
+                                                                           
+        },
+        savePerson: function(){
+            //this.model.save()
+            this.trigger("change"); //mocking save
+            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
         }
  
     });
@@ -244,13 +272,16 @@ $(function(){
 
 </script> 
  <script id="PersonTemplate" type="text/html">
-          <li> <%= id %> </li>
-          <li> <%= name %> </li>
-          <li> <%= bdate %> </li>
-          <li> <%= party.theme %> </li>
-          <li> <%= party.where %> </li>
-          <li> <%= party.date %> </li>
-          <li> <%= party.time %> </li>
+
+          <li> <input type="text" value="<%= id %>" </li>
+          <li> <input type="text" name="name" value="<%= name %>" </li>
+          <li> <input type="text" name="bdate" value="<%= bdate %>" </li>
+          <li> <input type="text" name="theme" value="<%= party.theme %>" </li>
+          <li> <input type="text" name="where" value="<%= party.where %>" </li>
+          <li> <input type="text" name="party.date" value="<%= party.date %>" </li>
+          <li> <input type="text" name="party.time" value="<%= party.time %>" </li>
+          <br>
+          <button class="save">Update</button>
 </script>
 </body>
 </html>
