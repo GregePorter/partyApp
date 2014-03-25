@@ -4,7 +4,7 @@
         "name": "Al Sahin",
         "bdate": "8/5/1983",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2014",
                 "time": "8 pm",
@@ -16,7 +16,7 @@
         "name": "Mr. T",
         "bdate": "8/5/1985",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2015",
                 "time": "8 pm",
@@ -28,7 +28,7 @@
         "name": "Mr. Pink",
         "bdate": "8/5/1984",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2016",
                 "time": "8 pm",
@@ -40,7 +40,7 @@
         "name": "Mr. Green",
         "bdate": "8/5/1983",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2017",
                 "time": "8 pm",
@@ -52,7 +52,7 @@
         "name": "Mr. Blue",
         "bdate": "8/5/1982",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2018",
                 "time": "8 pm",
@@ -64,7 +64,7 @@
         "name": "Walrus",
         "bdate": "8/5/1981",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2014",
                 "time": "8 pm",
@@ -76,7 +76,7 @@
         "name": "Egg Man",
         "bdate": "8/5/1980",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2014",
                 "time": "8 pm",
@@ -88,7 +88,7 @@
         "name": "Mr. Tati",
         "bdate": "8/5/1979",
         "party": {
-                "part_id": 1,
+                "pid": 1,
                 "theme": "new apt move-in party",
                 "date": "3/22/2014",
                 "time": "8 pm",

@@ -13,7 +13,7 @@
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
 
-    </style>
+    </style> 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!-- if lt IE 9
     script(src='https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js')
@@ -77,39 +77,155 @@
 <script> 
  
 $(function(){
-    var myData = {};
-    var $grid = $("#grid");
-    $.ajax({
-        type : 'GET',
-        datatype : 'json',
-        url : 'team.json',
-        success : function (myData) {
-             $grid.jqGrid({
-                data : myData,
+
+//Model 
+    var Person = Backbone.Model.extend({
+
+        defaults: {
+            name: "", //String
+            age: null, //Number parsed from bdate field and calculated
+            bdate: "", //String from jq DatePicker
+            party: {
+                part_id: null,
+                theme: "",
+                date: "", //String
+                time: "", //String HH:MM
+                where: "" //String
+            }
+        },
+        
+        //validate => triggers "invalid" //TODO: add to modelView
+        //TODO: complete validation using moment.js, jq Date picker etc.
+        validate: function(attrs, options){
+            if ( attrs.party.date < new Date() ) {
+              return "can't start earlier than today";
+            }            
+        }
+ 
+    });
+
+    //Collection of Months of a year
+    var Team = Backbone.Collection.extend({
+        model: Person,
+        initialize: function(models, options){
+            console.log('Team collection init');
+            //console.log(models); 
+        },
+        
+        url: '/team.json',
+
+        parse: function(data, xhr) {  // this is fired upon fetch() not upon instantiation 
+            console.log('Team collection parse');
+            console.log(xhr);         
+            console.log(data);
+            return data;
+        }
+    });
+
+    var TeamView = Backbone.View.extend({
+        el: $("#grid"),
+        //el: 'table', //tagName ??
+        initialize: function(){
+            console.log("TeamView init");
+            //this.listenTo(this.collection, 'add',  this.add); //?????????
+            //this.collection.on("add", this.m);
+            //this.render();
+        },
+        render: function() {
+            //this.collection.each(this.addOne);
+            $(this.el).jqGrid({
+                //data : this.collection.toJSON(), ///???
                 datatype: 'local',
-                gridView : true,
                 colNames: ['Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [{name : 'name', index : 'name', key : true, resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'party.date', index : 'party.date', resizeable : true}],
-                //pager: '#pager',
-                multiSort : true,
                 sortname: 'bdate, name asc',
-                viewrecords: false,
                 sortorder: "asc",
                 caption : "Party App",
                 height : "auto"
             });
+
+            this.collection.each(function(model){
+                console.log(model.get("id"));
+                //var monView = new MonthRowView({model : mon});
+                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON());
+
+            }); 
+
+            return this;
+        },
+        events: {
+            "add" : "getRow"
+        },
+        getRow: function(m){
+            console.log("clicked");
+            console.log(m);
+        }
+
+    });
+
+    var myTeam = new Team();
+    var teamView;
+    myTeam.fetch({
+        success: function(coll, response, options){
+            console.log(coll);
+            console.log(response);
+            console.log(options);
+            teamView = new TeamView({collection: coll});
+            teamView.render()
+            //$('#bcontent').html(teamView.render().el);
         }
     });
+
+    myTeam.on("add", function(m){
+
+        console.log(m);
+
+    });
+
+    //Each Row: PersonView
+    /*
+    var PersonView = Backbone.View.extend({
+ 
+        //tagName: 'li', //this.el is a list element
+        //className: 'thumbnail', //add this classname to the list element
+        //template: _.template($('#MonthTemplate').html()), //template compiler
+ 
+        initialize: function(){
+            //re-render PersonView on any "change" on the Person model 
+            this.listenTo(this.model, 'change',  this.render);
+        },
+        
+        render: function() {
+            //console.log("PersonView rendered");
+            //pass the Month model and compile this.template and put generated HTML in this.el 
+            $(this.el).html(this.template(this.model.toJSON())); 
+            //return context to enable chained calls
+            return this;
+        },
+        
+        events: {
+            //select my Month of Birth on click
+            "click":  "myMethod"
+        },
+        //change model with the selected Month of Birth
+        myMethod: function(){
+            console.log("clicked");
+        }
+ 
+    });
+*/
+
+
 
 
     //Info about binding a click event of the Grid
     //It seems like this is a JQGrid event
     //http://stackoverflow.com/a/15836149
-    $grid.bind("jqGridBeforeSelectRow", function (e, rowid, eventOriginal) {
-        debugger;
+    $("#grid").bind("jqGridBeforeSelectRow", function (e, rowid, eventOriginal) {
+        //debugger;
         console.log("You clicked " + rowid);
     });
 
