@@ -74,6 +74,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
 <script src="/js/grid.locale-en.js"></script>
 <script src="/js/jquery.jqGrid.min.js"></script>
+<script src="/js/handlebars-1.0.rc.1.min.js"></script>
 <script> 
  
 $(function(){
@@ -226,7 +227,7 @@ $(function(){
  
         tagName: 'ul', //this.el is a list element
         className: 'thumbnail', //add this classname to the list element
-        template: _.template($('#PersonTemplate').html()), //template compiler
+        template: Handlebars.compile($('#options-template').html()), //template compiler
  
         initialize: function(){
             //re-render PersonView on any "change" on the Person model 
@@ -243,8 +244,14 @@ $(function(){
         
         events: {
             //select my Month of Birth on click
+            "click .type" : "newTemplate",
             "change":  "updateRow",
             "click button.save":  "savePerson"
+        },
+        newTemplate : function (e) {
+            var templateName = "#" + e.target.id + "-template";
+            this.template = Handlebars.compile($(templateName).html());
+            this.render();
         },
         //change model with the selected Month of Birth
         updateRow : function (event) {
@@ -254,7 +261,8 @@ $(function(){
             var change = {};
             change[target.name] = target.value;
             this.model.set(change);
-            //debugger;
+            this.template = Handlebars.compile($('#options-template').html())
+            debugger;
             //this.$el.setRowData(rowid, this.collection.get(rowid).toJSON()); 
             
                                                                            
@@ -271,6 +279,38 @@ $(function(){
 });
 
 </script> 
+
+<script type="text/x-handlebars-template" id="options-template">
+    <input type="radio" name="action" class="type" value="party" id="party">
+        Add or Edit Party Info
+    </input>
+    <br>
+    <input type="radio" name="action" class="type" value="birthday" id="birthday">
+        Add or Edit Birthday Info
+    </input>
+    <br>
+</script>
+
+<script type="text/x-handlebars-template" id="party-template">
+    <label>Theme : </label>
+    <input type="text" size="25" name="theme" value={{party.theme}}</input>
+    <br>
+    <label>Date : </label>
+    <input type="text" size="25" name="party.date" value={{party.date}}</input>
+    <br>
+    <label>Time : </label>
+    <input type="text" size="25" name="party.time" value={{party.time}}</input>
+    <br>
+    <button class="save">Save the party</button>
+</script>
+
+<script type="text/x-handlebars-template" id="birthday-template">
+    <label>Birthday : </label>
+    <input type="text" size="25" name="bdate" value={{bdate}}></input>
+    <br>
+    <button class="save">Save the birthday</button>
+</script>
+
  <script id="PersonTemplate" type="text/html">
 
           <li> <input type="text" value="<%= id %>" </li>
