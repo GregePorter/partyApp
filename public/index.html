@@ -246,7 +246,7 @@ $(function(){
             //select my Month of Birth on click
             "click .type" : "newTemplate",
             "change":  "updateRow",
-            "click button.save":  "savePerson"
+            "click .save":  "savePerson"
         },
         newTemplate : function (e) {
             var templateName = "#" + e.target.id + "-template";
@@ -261,9 +261,7 @@ $(function(){
             var change = {};
             change[target.name] = target.value;
             this.model.set(change);
-            this.template = Handlebars.compile($('#options-template').html())
-            
-            debugger;
+            //this.template = Handlebars.compile($('#options-template').html())
             //this.$el.setRowData(rowid, this.collection.get(rowid).toJSON()); 
             
                                                                            
@@ -271,7 +269,7 @@ $(function(){
         savePerson: function(){
             //this.model.save()
             this.trigger("change"); //mocking save
-            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
+            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
         }
  
     });
@@ -294,13 +292,13 @@ $(function(){
 
 <script type="text/x-handlebars-template" id="party-template">
     <label>Theme : </label>
-    <input type="text" size="25" name="theme" value={{party.theme}}</input>
+    <input type="text" size="25" name="party.theme" value="{{#party}} {{theme}} {{/party}}"</input>
     <br>
     <label>Date : </label>
-    <input type="text" size="25" name="party.date" value={{party.date}}</input>
+    <input type="text" size="25" name="party.date" value="{{#party}} {{date}} {{/party}}"</input>
     <br>
     <label>Time : </label>
-    <input type="text" size="25" name="party.time" value={{party.time}}</input>
+    <input type="text" size="25" name="party.time" value="{{#party}} {{time}} {{/party}}"</input>
     <br>
     <button class="save">Save the party</button>
 </script>
