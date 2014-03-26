@@ -86,13 +86,11 @@ $(function(){
             name: "", //String
             age: null, //Number parsed from bdate field and calculated
             bdate: "", //String from jq DatePicker
-            party: {
-                pid: null,
-                theme: "",
-                date: "", //String
-                time: "", //String HH:MM
-                where: "" //String
-            }
+            party_pid : null,
+            party_theme : "",
+            party_date: "", //String
+            party_time: "", //String HH:MM
+            party_where: "" //String
         },
         
         //validate => triggers "invalid" //TODO: add to modelView
@@ -149,7 +147,7 @@ $(function(){
                             {name : 'name', index : 'name', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
-                            {name : 'party.date', index : 'party.date', resizeable : true}
+                            {name : 'party_date', index : 'party_date', resizeable : true}
                 ],
                 sortname: 'bdate, name asc',
                 sortorder: "asc",
@@ -260,16 +258,15 @@ $(function(){
             var target = event.target;
             var change = {};
             change[target.name] = target.value;
-            this.model.set(change);
-            //this.template = Handlebars.compile($('#options-template').html())
-            //this.$el.setRowData(rowid, this.collection.get(rowid).toJSON()); 
-            
-                                                                           
+            this.model.set(target.name , target.value);
+            debugger;
         },
         savePerson: function(){
             //this.model.save()
             this.trigger("change"); //mocking save
+            console.log("Saving person");
             $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
+            debugger;
         }
  
     });
@@ -292,13 +289,13 @@ $(function(){
 
 <script type="text/x-handlebars-template" id="party-template">
     <label>Theme : </label>
-    <input type="text" size="25" name="party.theme" value="{{#party}} {{theme}} {{/party}}"</input>
+    <input type="text" size="25" name="party_theme" value="{{party_theme}}"</input>
     <br>
     <label>Date : </label>
-    <input type="text" size="25" name="party.date" value="{{#party}} {{date}} {{/party}}"</input>
+    <input type="text" size="25" name="party_date" value="{{party_date}}"</input>
     <br>
     <label>Time : </label>
-    <input type="text" size="25" name="party.time" value="{{#party}} {{time}} {{/party}}"</input>
+    <input type="text" size="25" name="party_time" value="{{party_time}}"</input>
     <br>
     <button class="save">Save the party</button>
 </script>
