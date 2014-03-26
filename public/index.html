@@ -96,19 +96,27 @@ $(function(){
             party_where: "" //String
         },
         initialize : function () {
-            _.bindAll(this, 'updateAge')
+            _.bindAll(this, 'updateAge', 'printError')
             this.on('change:bdate', this.updateAge);
+            this.on('invalid', this.printError);
         },
         updateAge : function () {
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
         },
-        //validate => triggers "invalid" //TODO: add to modelView
-        //TODO: complete validation using moment.js, jq Date picker etc.
+        //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
-            if ( attrs.party.date < moment() ) {
+            console.log("model.validate called!")
+            console.log(attrs.party_date);
+
+            console.log(moment().isAfter(attrs.party_date));
+            if (moment().isAfter(attrs.party_date)){
               return "can't start earlier than today";
             }            
+        },
+        printError: function(){
+
+            console.log(this.validationError);
         }
  
     });
@@ -214,39 +222,41 @@ $(function(){
         initialize: function(){
             //re-render PersonView on any "change" on the Person model 
             //this.listenTo(this.model, 'change',  this.render);
-        },
-        
+        },     
         render: function() {
             //console.log("PersonView rendered");
             //pass the Month model and compile this.template and put generated HTML in this.el 
             $(this.el).html(this.template(this.model.toJSON())); 
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"0:20120"});
+            $("#date_input").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
             //return context to enable chained calls
             return this;
         },
-        
         events: {
-            //select my Month of Birth on click
+
             "click .type" : "newTemplate",
             "change":  "updateRow",
-            "click .save":  "savePerson",
+            "click .save":  "savePerson"
         },
         newTemplate : function (e) {
             var templateName = "#" + e.target.id + "-template";
             this.template = Handlebars.compile($(templateName).html());
             this.render();
         },
-        //change model with the selected Month of Birth
+        //updateRow on "change" 
+        //TODO: add a cancel button that resets to previous model attrs or find a better solution
         updateRow : function (event) {
             console.log("update triggered");
             // Apply the change to the model
             var target = event.target;
             var change = {};
             change[target.name] = target.value;
-            this.model.set(target.name , target.value);
+            //By default model's validate method is called before save, but can also be called before set if {validate:true}
+            this.model.set(target.name , target.value, {validate:true});
         },
+        //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
         savePerson: function(){
             //this.model.save()
+            //if(this.model.isValid())
             this.trigger("change"); //mocking save
             console.log("Saving person");
             $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
