@@ -249,7 +249,7 @@ $(function(){
             //console.log("PersonView rendered");
             //pass the Month model and compile this.template and put generated HTML in this.el 
             $(this.el).html(this.template(this.model.toJSON())); 
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"0:9999"});
+            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"0:20120"});
             //return context to enable chained calls
             return this;
         },
