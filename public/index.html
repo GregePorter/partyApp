@@ -70,7 +70,7 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script data-main="js/main" src="js/libs/require/require.js"></script>
-<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+<!-- <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
@@ -78,27 +78,10 @@
 <script src="/js/jquery.jqGrid.min.js"></script>
 <script src="/js/jquery-ui-1.10.4.custom.js"></script>
 <script src="/js/moment.min.js"></script>
-<script src="/js/handlebars-1.0.rc.1.min.js"></script>
+<script src="/js/handlebars-1.0.rc.1.min.js"></script> -->
 <script> 
  
-$(function(){
 
-    var myTeam = new Team();
-    var teamView;
-    myTeam.fetch({
-        success: function(coll, response, options){
-            var now = moment();
-            console.log("fetch success");
-            console.log(coll);
-
-            coll.each( function (person) {
-                person.set({age : now.diff(person.get('bdate'), 'years')});
-            });
-
-            teamView = new TeamView({collection: coll});
-        }
-    });
-});
 
 </script> 
 

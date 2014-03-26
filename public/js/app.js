@@ -2,16 +2,22 @@
 
 define([
 	'jquery',
+	'jqgrid',
+	'jqueryui',
 	'underscore',
-	'backbone'
+	'backbone',
+	'handlebars',
+	'bootstrap',
+	'moment',
+	'views/person',
+	'views/team',
+	'collections/team'
 	//'module name'  --ex) 'router' for router.js
 ], function($,_,Backbone){
 
 	var initialize = function(){
-		//Pass in modules here and initialize them
+		Router.initialize();
 	}
 
-	return {
-		initialize : initialize
-	};
+	return { initialize : initialize };
 });

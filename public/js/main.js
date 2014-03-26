@@ -7,15 +7,15 @@ require.config({
 		jqueryui : 'libs/jquery/jquery-ui-1.10.4.custom.min',
 		underscore : 'libs/underscore/underscore-min',
 		backbone: 'libs/backbone/backbone-min',
-		bootstrap: 'lib/bootstrap/bootstrap.min',
-		handlebars: 'lib/handlebars/handlebars-1.0.rc.1.min',
-		moment: 'lib/moment/moment'
+		bootstrap: 'libs/bootstrap/bootstrap.min',
+		handlebars: 'libs/handlebars/handlebars-1.0.rc.1.min',
+		moment: 'libs/moment/moment.min'
 	}
 });
 
 require([
 	//Load app module and pass it to definition function
-	'app'
+	'app',
 ], function(App) {
 	App.initialize();
 });

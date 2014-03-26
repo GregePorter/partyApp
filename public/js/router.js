@@ -3,7 +3,7 @@
 define([
 	'jquery',
 	'jqgrid',
-	'jqgridui',
+	'jqueryui',
 	'underscore',
 	'backbone',
 	'handlebars',
@@ -39,7 +39,5 @@ define([
 		Backbone.history.start();
 	};
 
-	return {
-		initialize : initialize
-	}
+	return { initialize : initialize }
 });
