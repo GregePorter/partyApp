@@ -69,6 +69,7 @@
 <!-- Le javascript
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
+<script data-main="js/main" src="js/libs/require/require.js"></script>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
 <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
@@ -81,109 +82,6 @@
 <script> 
  
 $(function(){
-
-//Model 
-    var Person = Backbone.Model.extend({
-
-        defaults: {
-            name: "", //String
-            age: null, //Number parsed from bdate field and calculated
-            bdate: "", //String from jq DatePicker
-            party_pid : null,
-            party_theme : "",
-            party_date: "", //String
-            party_time: "", //String HH:MM
-            party_where: "" //String
-        },
-        initialize : function () {
-            _.bindAll(this, 'updateAge')
-            this.on('change:bdate', this.updateAge);
-        },
-        updateAge : function () {
-            var now = moment();
-            this.set({age : now.diff(this.get('bdate'), 'years')});
-        },
-        //validate => triggers "invalid" //TODO: add to modelView
-        //TODO: complete validation using moment.js, jq Date picker etc.
-        validate: function(attrs, options){
-            if ( attrs.party.date < moment() ) {
-              return "can't start earlier than today";
-            }            
-        }
- 
-    });
-
-    //Collection of Months of a year
-    var Team = Backbone.Collection.extend({
-        model: Person,
-        initialize: function(models, options){
-            console.log('Team collection init');
-            //console.log(models); 
-        },
-        
-        url: '/team.json',
-
-        parse: function(data, xhr) {  // this is fired upon fetch() 
-            console.log('Team collection parse -> returns team.json data');
-            return data;
-        }
-    });
-
-    var TeamView = Backbone.View.extend({
-        
-        el: $("#grid"),
-        
-        //tagName: 'table', //tagName ??
-        //id: 'grid',
-        
-        initialize: function(){
-            console.log("TeamView init");
-            this.render();
-        },
-        render: function() {
-
-            $(this.el).jqGrid({
-                //data : this.collection.toJSON(), ///???
-                datatype: 'local',
-                colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
-                colModel : [
-                            {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
-                            {name : 'name', index : 'name', resizeable : true},
-                            {name : 'age', index : 'age', resizeable : true},
-                            {name : 'bdate', index : 'bdate', resizeable : true},
-                            {name : 'party_date', index : 'party_date', resizeable : true}
-                ],
-                sortname: 'bdate, name asc',
-                sortorder: "asc",
-                caption : "Party App",
-                height : "auto"
-            });
-
-            this.collection.each(function(model){
-                console.log(model.get("id"));
-
-                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON()); // $(this.el) ???????? this.$el
-                //this.$el.addRowData(model.get("id"), model.toJSON());
-                //$(this.el).jqGrid("addRowData", model.get("id"), model.toJSON());
-
-            }); 
-
-            return this;
-        },
-        events: {
-            //jqGridBeforeSelectRow
-            "jqGridSelectRow" : "showRowDetail"
-        },
-        showRowDetail: function(e, rowid, eventOriginal){
-            console.log("rowid: " + rowid);
-            console.log(this.collection.get(rowid));
-            
-            var aPerson = this.collection.get(rowid); 
-            var personView = new PersonView({model: aPerson}); 
-            $('#detailArea').html(personView.render().el);
-        }
-
-    });
 
     var myTeam = new Team();
     var teamView;
@@ -198,95 +96,11 @@ $(function(){
             });
 
             teamView = new TeamView({collection: coll});
-            
-            //console.log(teamView.render().el);
-            //$('#bcontent').html(teamView.render().el);
         }
     });
-
-    //Click on Each Row create: PersonView    
-    var PersonView = Backbone.View.extend({
- 
-        tagName: 'ul', //this.el is a list element
-        className: 'thumbnail', //add this classname to the list element
-        template: Handlebars.compile($('#options-template').html()), //template compiler
- 
-        initialize: function(){
-            //re-render PersonView on any "change" on the Person model 
-            //this.listenTo(this.model, 'change',  this.render);
-        },
-        
-        render: function() {
-            //console.log("PersonView rendered");
-            //pass the Month model and compile this.template and put generated HTML in this.el 
-            $(this.el).html(this.template(this.model.toJSON())); 
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"0:20120"});
-            //return context to enable chained calls
-            return this;
-        },
-        
-        events: {
-            //select my Month of Birth on click
-            "click .type" : "newTemplate",
-            "change":  "updateRow",
-            "click .save":  "savePerson",
-        },
-        newTemplate : function (e) {
-            var templateName = "#" + e.target.id + "-template";
-            this.template = Handlebars.compile($(templateName).html());
-            this.render();
-        },
-        //change model with the selected Month of Birth
-        updateRow : function (event) {
-            console.log("update triggered");
-            // Apply the change to the model
-            var target = event.target;
-            var change = {};
-            change[target.name] = target.value;
-            this.model.set(target.name , target.value);
-        },
-        savePerson: function(){
-            //this.model.save()
-            this.trigger("change"); //mocking save
-            console.log("Saving person");
-            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
-        }
- 
-    });
-    
 });
 
 </script> 
 
-<script type="text/x-handlebars-template" id="options-template">
-    <input type="radio" name="action" class="type" value="party" id="party">
-        Add or Edit Party Info
-    </input>
-    <br>
-    <input type="radio" name="action" class="type" value="birthday" id="birthday">
-        Add or Edit Birthday Info
-    </input>
-    <br>
-</script>
-
-<script type="text/x-handlebars-template" id="party-template">
-    <label>Theme : </label>
-    <input type="text" size="25" name="party_theme" value="{{party_theme}}"</input>
-    <br>
-    <label>Date : </label>
-    <input type="text" size="25" id="date_input" name="party_date"></input>
-    <br>
-    <label>Time : </label>
-    <input type="text" size="25" name="party_time" value="{{party_time}}"</input>
-    <br>
-    <button class="save">Save the party</button>
-</script>
-
-<script type="text/x-handlebars-template" id="birthday-template">
-    <label>Birthday : </label>
-    <input type="text" size="25" id="date_input" name="bdate"></input>
-    <br>
-    <button class="save">Save the birthday</button>
-</script>
 </body>
 </html>
