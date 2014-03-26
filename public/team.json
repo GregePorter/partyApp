@@ -3,96 +3,80 @@
         "id": 1,
         "name": "Al Sahin",
         "bdate": "8/5/1983",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2014",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2014",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 2,
         "name": "Mr. T",
         "bdate": "8/5/1985",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2015",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2015",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 3,
         "name": "Mr. Pink",
         "bdate": "8/5/1984",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2016",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2016",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 4,
         "name": "Mr. Green",
         "bdate": "8/5/1983",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2017",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
-    },    
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2017",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
+    },
     {
         "id": 5,
         "name": "Mr. Blue",
         "bdate": "8/5/1982",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2018",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2018",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 6,
         "name": "Walrus",
         "bdate": "8/5/1981",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2014",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2014",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 7,
         "name": "Egg Man",
         "bdate": "8/5/1980",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2014",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2014",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     },
     {
         "id": 8,
         "name": "Mr. Tati",
         "bdate": "8/5/1979",
-        "party": {
-                "pid": 1,
-                "theme": "new apt move-in party",
-                "date": "3/22/2014",
-                "time": "8 pm",
-                "where": "802 S. 14th st."
-            }
+        "part_pid": 1,
+        "party_theme": "new apt move-in party",
+        "party_date": "3/22/2014",
+        "party_time": "8 pm",
+        "party_where": "802 S. 14th st."
     }
 ]
