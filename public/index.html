@@ -125,8 +125,6 @@ $(function(){
 
         parse: function(data, xhr) {  // this is fired upon fetch() 
             console.log('Team collection parse -> returns team.json data');
-            //console.log(xhr);         
-            //console.log(data);
             return data;
         }
     });
@@ -140,10 +138,6 @@ $(function(){
         
         initialize: function(){
             console.log("TeamView init");
-            
-            //testing listenTo "add" event
-            this.listenTo(this.collection, 'add',  this.testAdd); //?????????
-
             this.render();
         },
         render: function() {
@@ -181,27 +175,12 @@ $(function(){
             "jqGridSelectRow" : "showRowDetail"
         },
         showRowDetail: function(e, rowid, eventOriginal){
-            console.log("clicked");
-            console.log(rowid);
-            
-            //testing this.$el.addRowData => this should work when populating the table
-            //this.$el.addRowData(rowid, this.collection.get(rowid).toJSON());
-
-            var rowData = this.$el.getRowData(parseInt(rowid)); //get the data for the row which was clicked
-            console.log(rowData);
+            console.log("rowid: " + rowid);
             console.log(this.collection.get(rowid));
+            
             var aPerson = this.collection.get(rowid); 
             var personView = new PersonView({model: aPerson}); 
             $('#detailArea').html(personView.render().el);
-        },
-        //testing listenTo "add" event
-        testAdd: function(){
-            console.log("model added");
-        },
-
-        updateRow : function (e, rowid, eventOriginal) {
-            this.$el.setRowData(rowid, this.collection.get(rowid).toJSON());  //jqgrid.setRow(Person.id, e.attributes)
-                                                                           //e.attributes is the data to put in the row
         }
 
     });
@@ -213,25 +192,17 @@ $(function(){
             var now = moment();
             console.log("fetch success");
             console.log(coll);
-            //console.log(response);
-            //console.log(options);
+
             coll.each( function (person) {
                 person.set({age : now.diff(person.get('bdate'), 'years')});
             });
+
             teamView = new TeamView({collection: coll});
             
             //console.log(teamView.render().el);
             //$('#bcontent').html(teamView.render().el);
         }
     });
-
-    //This is to test "add" event on the collection
-    //??? doesn't work when we use listenTo in collection
-/*    myTeam.on("add", function(m){
-        console.log("model added in the collection");
-        console.log(m);
-
-    });*/
 
     //Click on Each Row create: PersonView    
     var PersonView = Backbone.View.extend({
@@ -283,7 +254,6 @@ $(function(){
  
     });
     
-
 });
 
 </script> 
