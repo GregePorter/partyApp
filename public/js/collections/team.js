@@ -1,3 +1,8 @@
+define([
+    'underscore',
+    'backbone'
+], function(_, Backbone, Person))
+
 var Team = Backbone.Collection.extend({
     model: Person,
     initialize: function(models, options){

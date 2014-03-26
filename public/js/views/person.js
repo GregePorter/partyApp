@@ -1,7 +1,9 @@
 define([
     'jquery',
+    'jqgrid',
     'underscore',
     'backbone',
+    'moment',
     'text!templates/options.html',
     'text!templates/party.html',
     'text!templates/birthday.html'
