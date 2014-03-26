@@ -8,6 +8,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title></title>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="css/trontastic/jquery-ui-1.10.4.custom.css">
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -74,6 +75,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
 <script src="/js/grid.locale-en.js"></script>
 <script src="/js/jquery.jqGrid.min.js"></script>
+<script src="/js/jquery-ui-1.10.4.custom.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/handlebars-1.0.rc.1.min.js"></script>
 <script> 
@@ -247,6 +249,7 @@ $(function(){
             //console.log("PersonView rendered");
             //pass the Month model and compile this.template and put generated HTML in this.el 
             $(this.el).html(this.template(this.model.toJSON())); 
+            $("#date_input").datepicker();
             //return context to enable chained calls
             return this;
         },
@@ -255,7 +258,7 @@ $(function(){
             //select my Month of Birth on click
             "click .type" : "newTemplate",
             "change":  "updateRow",
-            "click .save":  "savePerson"
+            "click .save":  "savePerson",
         },
         newTemplate : function (e) {
             var templateName = "#" + e.target.id + "-template";
@@ -301,7 +304,7 @@ $(function(){
     <input type="text" size="25" name="party_theme" value="{{party_theme}}"</input>
     <br>
     <label>Date : </label>
-    <input type="text" size="25" name="party_date" value="{{party_date}}"</input>
+    <input type="text" size="25" id="date_input" name="party_date"></input>
     <br>
     <label>Time : </label>
     <input type="text" size="25" name="party_time" value="{{party_time}}"</input>
@@ -311,7 +314,7 @@ $(function(){
 
 <script type="text/x-handlebars-template" id="birthday-template">
     <label>Birthday : </label>
-    <input type="text" size="25" name="bdate" value={{bdate}}></input>
+    <input type="text" size="25" id="date_input" name="bdate"></input>
     <br>
     <button class="save">Save the birthday</button>
 </script>
