@@ -74,6 +74,7 @@
 <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
 <script src="/js/grid.locale-en.js"></script>
 <script src="/js/jquery.jqGrid.min.js"></script>
+<script src="/js/moment.min.js"></script>
 <script src="/js/handlebars-1.0.rc.1.min.js"></script>
 <script> 
  
@@ -92,11 +93,18 @@ $(function(){
             party_time: "", //String HH:MM
             party_where: "" //String
         },
-        
+        initialize : function () {
+            _.bindAll(this, 'updateAge')
+            this.on('change:bdate', this.updateAge);
+        },
+        updateAge : function () {
+            var now = moment();
+            this.set({age : now.diff(this.get('bdate'), 'years')});
+        },
         //validate => triggers "invalid" //TODO: add to modelView
         //TODO: complete validation using moment.js, jq Date picker etc.
         validate: function(attrs, options){
-            if ( attrs.party.date < new Date() ) {
+            if ( attrs.party.date < moment() ) {
               return "can't start earlier than today";
             }            
         }
@@ -145,7 +153,7 @@ $(function(){
                 colModel : [
                             {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
                             {name : 'name', index : 'name', resizeable : true},
-                            {name : 'bdate', index : 'bdate', resizeable : true},
+                            {name : 'age', index : 'age', resizeable : true},
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'party_date', index : 'party_date', resizeable : true}
                 ],
@@ -190,7 +198,6 @@ $(function(){
         },
 
         updateRow : function (e, rowid, eventOriginal) {
-
             this.$el.setRowData(rowid, this.collection.get(rowid).toJSON());  //jqgrid.setRow(Person.id, e.attributes)
                                                                            //e.attributes is the data to put in the row
         }
@@ -201,10 +208,14 @@ $(function(){
     var teamView;
     myTeam.fetch({
         success: function(coll, response, options){
+            var now = moment();
             console.log("fetch success");
             console.log(coll);
             //console.log(response);
             //console.log(options);
+            coll.each( function (person) {
+                person.set({age : now.diff(person.get('bdate'), 'years')});
+            });
             teamView = new TeamView({collection: coll});
             
             //console.log(teamView.render().el);
@@ -259,14 +270,12 @@ $(function(){
             var change = {};
             change[target.name] = target.value;
             this.model.set(target.name , target.value);
-            debugger;
         },
         savePerson: function(){
             //this.model.save()
             this.trigger("change"); //mocking save
             console.log("Saving person");
             $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
-            debugger;
         }
  
     });
@@ -305,19 +314,6 @@ $(function(){
     <input type="text" size="25" name="bdate" value={{bdate}}></input>
     <br>
     <button class="save">Save the birthday</button>
-</script>
-
- <script id="PersonTemplate" type="text/html">
-
-          <li> <input type="text" value="<%= id %>" </li>
-          <li> <input type="text" name="name" value="<%= name %>" </li>
-          <li> <input type="text" name="bdate" value="<%= bdate %>" </li>
-          <li> <input type="text" name="theme" value="<%= party.theme %>" </li>
-          <li> <input type="text" name="where" value="<%= party.where %>" </li>
-          <li> <input type="text" name="party.date" value="<%= party.date %>" </li>
-          <li> <input type="text" name="party.time" value="<%= party.time %>" </li>
-          <br>
-          <button class="save">Update</button>
 </script>
 </body>
 </html>
