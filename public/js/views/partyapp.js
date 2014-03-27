@@ -6,9 +6,6 @@ define([
 	'jqueryui',
 	'underscore',
 	'backbone',
-	'models/person',
-	// 'bootstrap',
-	//'views/person',
 	'collections/team',
 	'views/team',
 	//'module name'  --ex) 'router' for router.js
@@ -35,21 +32,9 @@ define([
 
 	var initialize = function () {
 		var partyApp = new PartyApp;
-		this.person = partyApp.person;
-	};
-
-	var getPerson = function () {
-		return this.person;
-	};
-
-	var render = function () {
-			var tempPersonView = PersonView({model : this.person});
-			//$(this.el).html(tempPersonView.render());
 	};
 
 	return {
-		getPerson : getPerson,
-		render : render,
 		initialize : initialize
 	};
 });
