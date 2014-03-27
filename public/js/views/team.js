@@ -51,7 +51,7 @@ define([
             
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
-            $('#date_input').html(personView.render().el);
+            $('#person_details').html(personView.render("").el);
         }
     });
 
