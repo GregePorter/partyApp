@@ -4,10 +4,8 @@ define([
     'jqueryui',
     'underscore',
     'backbone',
-    // 'bootstrap',
     'collections/team',
     'views/person'
-    //'module name'  --ex) 'router' for router.js
 ], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
     var TeamView = Backbone.View.extend({
         
@@ -42,7 +40,6 @@ define([
             return this;
         },
         events: {
-            //jqGridBeforeSelectRow
             "jqGridSelectRow" : "showRowDetail"
         },
         showRowDetail: function(e, rowid, eventOriginal){

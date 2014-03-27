@@ -13,10 +13,7 @@ require.config({
 		hbs : ['libs/require-handlebars-plugin/hbs']
 	},
 	hbs : {
-		helpers : false,
-		i18n : false,
-		templateExtension : 'hbs',
-		partialsUrl: ''
+		templateExtension : 'html',
 	},
 	shim : {
 		handlebars : {
