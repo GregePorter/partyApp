@@ -24,7 +24,7 @@
         "party_theme": "new apt move-in party",
         "party_date": "7/15/2014",
         "party_time": "21:00 pm",
-        "party_where": "802 S. 14th st."
+        "party_where": "Al's \"crib\""
     },
     {
         "id": 4,
@@ -54,6 +54,14 @@
         "party_where": "802 S. 14th st."
     },
     {
+        "id": 7,
+        "name": "Egg Man",
+        "bdate": "8/5/1980",
+        "party_theme": "new apt move-in party",
+        "party_date": "5/13/2014",
+        "party_time": "7:30 pm",
+        "party_where": "802 S. 14th st."
+    },    {
         "id": 7,
         "name": "Egg Man",
         "bdate": "8/5/1980",
