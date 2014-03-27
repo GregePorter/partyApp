@@ -54,9 +54,9 @@ define([
             console.log("rowid: " + rowid);
             console.log(this.collection.get(rowid));
             
-            var aPerson = this.collection.get(rowid); 
+            /*var aPerson = this.collection.get(rowid); 
             var personView = new PersonView({model: aPerson}); 
-            $('#detailArea').html(personView.render().el);
+            $('#detailArea').html(personView.render().el);*/
         }
     });
 

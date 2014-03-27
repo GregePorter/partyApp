@@ -18,7 +18,6 @@ define([
 
 	var initialize = function(){
 		PartyApp.initialize();
-		debugger;
 	};
 
 	return {

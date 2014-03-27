@@ -18,6 +18,7 @@ define([
             //re-render PersonView on any "change" on the Person model 
             //this.listenTo(this.model, 'change',  this.render);
             console.log("Creating PersonView");
+            //this.render();
         },
         
         render: function() {
@@ -56,5 +57,5 @@ define([
 
     });
     
-    return PersonView;
+    return  PersonView;
 });

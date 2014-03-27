@@ -6,54 +6,30 @@ define([
 	'jqueryui',
 	'underscore',
 	'backbone',
-	'moment',
-	'handlebars',
 	'models/person',
 	// 'bootstrap',
-	'views/person',
+	//'views/person',
+	'collections/team'
 	// 'views/team',
 	//'module name'  --ex) 'router' for router.js
-], function($, jqGrid, jqueryUI, _, Backbone, Moment, Handlebars, Person, PersonView){
+], function($, jqGrid, jqueryUI, _, Backbone, Person, Team){
 
 	var person = "";
 	var PartyApp = Backbone.View.extend({
 		el : $("#date_input"),
-		person : "",
+		collection : {},
 		initialize : function () {
-			this.person = new Person({
-		        "id": 1,
-		        "name": "Al Sahin",
-		        "bdate": "8/5/1983",
-		        "part_pid": 1,
-		        "party_theme": "new apt move-in party",
-		        "party_date": "3/22/2014",
-		        "party_time": "8 pm",
-		        "party_where": "802 S. 14th st."
-			});
 
-			this.render();
-		},
-		render : function () {
-			var tempPersonView = PersonView;
-			this.el.html(tempPersonView.render());
-		}
-/*		el : $('#grid'),
-		initialize : function(){
-		    this.collection = new Team();
-		    var teamView;
-		    this.collection.fetch({
+			this.collection = new Team;
+			this.collection.fetch({
 		        success: function(coll, response, options){
-		            var now = moment();
 		            console.log("fetch success");
 		            console.log(coll);
 
-		            coll.each( function (person) {
-		                person.set({age : now.diff(person.get('bdate'), 'years')});
-		            });
-
-		            teamView = new TeamView({collection: coll});
-		        }
-		}*/
+		            // var teamView = new TeamView({collection: coll});
+		     	}
+		    });
+		}
 
 	});
 
@@ -66,8 +42,14 @@ define([
 		return this.person;
 	};
 
+	var render = function () {
+			var tempPersonView = PersonView({model : this.person});
+			//$(this.el).html(tempPersonView.render());
+	};
+
 	return {
 		getPerson : getPerson,
+		render : render,
 		initialize : initialize
 	};
 });
