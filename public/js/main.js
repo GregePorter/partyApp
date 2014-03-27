@@ -9,7 +9,14 @@ require.config({
 		backbone : ['libs/backbone/backbone-min'],
 		bootstrap: 'libs/bootstrap/bootstrap.min',
 		handlebars: 'libs/handlebars/handlebars-1.0.rc.1.min',
-		moment : ['libs/moment/moment.min']
+		moment : ['libs/moment/moment.min'],
+		hbs : ['libs/require-handlebars-plugin/hbs']
+	},
+	hbs : {
+		helpers : false,
+		i18n : false,
+		templateExtension : 'hbs',
+		partialsUrl: ''
 	},
 	shim : {
 		handlebars : {

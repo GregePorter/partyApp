@@ -5,14 +5,14 @@ define([
     'backbone',
     'moment',
     'handlebars',
-    'text!templates/options.html',
-    'text!templates/party.html',
-    'text!templates/birthday.html'
+    'hbs!../templates/options',
+    'hbs!../templates/party',
+    'hbs!../templates/birthday'
 ], function($, jqGrid, _, Backbone, Moment, Handlebars, options_template, party_template, birthday_template){
     var PersonView = Backbone.View.extend({
         tagName: 'ul', //this.el is a list element
         className: 'thumbnail', //add this classname to the list element
-        template: Handlebars.compile(options_template), //template compiler
+        template: [options_template(), party_template(), birthday_template()], //template compiler
 
         initialize: function(){
             //re-render PersonView on any "change" on the Person model 
@@ -24,7 +24,8 @@ define([
         render: function() {
             //console.log("PersonView rendered");
             //pass the Month model and compile this.template and put generated HTML in this.el 
-            $(this.el).html(this.template(this.model.toJSON())); 
+            debugger;
+            $(this.el).html(this.template); 
             //$("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"0:20120"});
             //return context to enable chained calls
             return this;
@@ -37,6 +38,7 @@ define([
             "click .save":  "savePerson",
         },
         newTemplate : function (e) {
+            debugger;
             var templateName = "#" + e.target.id + "-template";
             this.template = Handlebars.compile($(templateName).html());
             this.render();

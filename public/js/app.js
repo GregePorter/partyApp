@@ -2,18 +2,9 @@
 
 define([
 	'jquery',
-	// 'jqgrid',
-	// 'jqueryui',
 	'underscore',
 	'backbone',
-	//'bootstrap',
-	// 'moment',
-	// 'handlebars',
-	// 'router',
-	// 'models/person',
-	'views/partyapp',
-	// 'views/team',
-	//'collections/team',
+	'views/partyapp'
 ], function($, _, Backbone, PartyApp){
 
 	var initialize = function(){

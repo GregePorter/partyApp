@@ -1,16 +1,17 @@
 define([
     'jquery',
+    'jqgrid',
+    'jqueryui',
     'underscore',
     'backbone',
-    'jqgrid',
-    'moment'
-], function($,_,Backbone){
+    // 'bootstrap',
+    'collections/team',
+    'views/person'
+    //'module name'  --ex) 'router' for router.js
+], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
     var TeamView = Backbone.View.extend({
         
         el: $("#grid"),
-        
-        //tagName: 'table', //tagName ??
-        //id: 'grid',
         
         initialize: function(){
             console.log("TeamView init");
@@ -19,7 +20,6 @@ define([
         render: function() {
 
             $(this.el).jqGrid({
-                //data : this.collection.toJSON(), ///???
                 datatype: 'local',
                 colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
@@ -36,12 +36,7 @@ define([
             });
 
             this.collection.each(function(model){
-                console.log(model.get("id"));
-
-                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON()); // $(this.el) ???????? this.$el
-                //this.$el.addRowData(model.get("id"), model.toJSON());
-                //$(this.el).jqGrid("addRowData", model.get("id"), model.toJSON());
-
+                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON());
             }); 
 
             return this;
@@ -54,9 +49,9 @@ define([
             console.log("rowid: " + rowid);
             console.log(this.collection.get(rowid));
             
-            /*var aPerson = this.collection.get(rowid); 
+            var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
-            $('#detailArea').html(personView.render().el);*/
+            $('#date_input').html(personView.render().el);
         }
     });
 

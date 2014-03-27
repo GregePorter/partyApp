@@ -9,14 +9,14 @@ define([
 	'models/person',
 	// 'bootstrap',
 	//'views/person',
-	'collections/team'
-	// 'views/team',
+	'collections/team',
+	'views/team',
 	//'module name'  --ex) 'router' for router.js
-], function($, jqGrid, jqueryUI, _, Backbone, Person, Team){
+], function($, jqGrid, jqueryUI, _, Backbone, Person, Team, TeamView){
 
 	var person = "";
 	var PartyApp = Backbone.View.extend({
-		el : $("#date_input"),
+		el : $("#app"),
 		collection : {},
 		initialize : function () {
 
@@ -26,7 +26,7 @@ define([
 		            console.log("fetch success");
 		            console.log(coll);
 
-		            // var teamView = new TeamView({collection: coll});
+		            var teamView = new TeamView({collection: coll});
 		     	}
 		    });
 		}
