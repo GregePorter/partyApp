@@ -10,7 +10,7 @@ var app = express();
 app.configure(function(){
   	app.set('port', process.env.PORT || 3000);
   	app.use(express.static(__dirname + '/public')); 
-  	app.set('views', __dirname + '/views');
+  	app.set('views', __dirname + 'js/views');
   	app.set('view engine', 'jade');
   	app.use(express.bodyParser()); // ???
   	app.use(express.logger('dev')); //dev, short, default, tiny

@@ -2,22 +2,26 @@
 
 define([
 	'jquery',
-	'jqgrid',
-	'jqueryui',
+	// 'jqgrid',
+	// 'jqueryui',
 	'underscore',
 	'backbone',
-	'handlebars',
-	'bootstrap',
-	'moment',
-	'views/person',
-	'views/team',
-	'collections/team'
-	//'module name'  --ex) 'router' for router.js
-], function($,_,Backbone){
+	//'bootstrap',
+	// 'moment',
+	// 'handlebars',
+	// 'router',
+	// 'models/person',
+	'views/partyapp',
+	// 'views/team',
+	//'collections/team',
+], function($, _, Backbone, PartyApp){
 
 	var initialize = function(){
-		Router.initialize();
-	}
+		PartyApp.initialize();
+		debugger;
+	};
 
-	return { initialize : initialize };
+	return {
+		initialize : initialize
+	};
 });

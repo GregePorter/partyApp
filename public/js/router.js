@@ -7,21 +7,25 @@ define([
 	'underscore',
 	'backbone',
 	'handlebars',
-	'bootstrap',
+	// 'bootstrap',
 	'moment',
-	'views/person',
-	'views/team'
-], function($, _, Backbone, PersonView, TeamView){
+	'models/person'
+	// 'views/person',
+	// 'views/team'
+// ], function($, _, Backbone, PersonView, TeamView){
+], function($, jqGrid, jqueryUI, _, Backbone, Handlebars, Moment, Person){
 	var AppRouter = Backbone.Router.extend({
 		routes : {
-			'person' : 'showPerson',
-			'team' : 'showTeam'
+			'*actions' : 'defaultAction'
+			// 'person' : 'showPerson',
+			// 'team' : 'showTeam'
 		}
 	});
 
 	var initialize = function() {
 		var app_router = new AppRouter;
-		app_router.on('showTeam', function(){
+		var testPerson = new Person;
+/*		app_router.on('showTeam', function(){
 			//Call render on the modeul we loaded in the define array
 			//views/team
 			var teamView = new TeamView();
@@ -32,12 +36,13 @@ define([
 			var personView = new PersonView();
 			personView.render();
 		});
-
+*/
 		app_router.on('defaultAction', function(actions){
-			console.log('No route:', actions)''
+			console.log('No route:', actions);
 		});
-		Backbone.history.start();
 	};
 
-	return { initialize : initialize }
+	return {
+		initialize : initialize
+	};
 });

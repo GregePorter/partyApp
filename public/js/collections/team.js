@@ -1,8 +1,13 @@
 define([
+    'jquery',
+    'jqgrid',
+    'jqueryui',
     'underscore',
     'backbone',
-    'models/person'
-], function(_, Backbone, Person) {
+    'moment',
+    'handlebars',
+    '/models/person'
+], function($, jqGrid, jqueryUI, _, Backbone, Moment, Handlebars, Person){
     var Team = Backbone.Collection.extend({
         model: Person,
         initialize: function(models, options){

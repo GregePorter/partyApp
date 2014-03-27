@@ -1,7 +1,9 @@
 define([
+    'jquery',
     'underscore',
-    'backbone'
-], function(_,Backbone) {
+    'backbone',
+    'moment',
+], function($, _, Backbone, Moment){
     var Person = Backbone.Model.extend({
 
         defaults: {
@@ -16,6 +18,8 @@ define([
         },
         initialize : function () {
             _.bindAll(this, 'updateAge')
+            var now = moment();
+            this.set({age : now.diff(this.get('bdate'), 'years')});
             this.on('change:bdate', this.updateAge);
         },
         updateAge : function () {
