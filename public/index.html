@@ -9,6 +9,7 @@
     <title></title>
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/trontastic/jquery-ui-1.10.4.custom.css">
+    <link rel="stylesheet" type="text/css" href="css/jquery.timepicker.css">
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -85,6 +86,7 @@
 <script src="/js/jquery-ui-1.10.4.custom.js"></script>
 <script src="/js/moment.min.js"></script>
 <script src="/js/handlebars-1.0.rc.1.min.js"></script>
+<script src="/js/jquery.timepicker.js"></script>
 <script> 
  
 $(function(){
@@ -120,8 +122,11 @@ $(function(){
             if (!attrs.party_time) {
                 errors.push({name: 'party_time', message: 'Please fill time field.'});
             }
+            if (!moment(attrs.party_time, 'h:mm A').isValid()) {
+                errors.push({name: 'party_time', message: 'Please enter a valid time.'});
+            }
             if (moment().isAfter(attrs.party_date)){
-                errors.push({name: 'party_time', message: 'Cannot start earlier than today.'});
+                errors.push({name: 'party_date', message: 'Cannot start earlier than today.'});
             }
             if (!moment().isAfter(attrs.bdate)){
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
@@ -223,6 +228,11 @@ $(function(){
             //console.log(teamView.el);
             //$('#bcontent').html(teamView.el);
         },
+
+        //TODO: validating JSON object based on default model data types ???
+        //if allowing empty/null on a field
+        //if datatype is the expected type etc. 
+
         error: function(coll, response, options){
             console.log("fetch error");
             console.log(response);
@@ -237,25 +247,32 @@ $(function(){
                 errors.push({message: 'Internal Server Error. [500]'});
             } 
             if((response.responseText !== "") && (coll.models.length === 0) ){
-                errors.push({message: "Malformed JSON file!", responseText: response.responseText});
+                errors.push({message: "Malformed JSON", responseText: response.responseText});
             }
             if(errors.length){
                 _.each(errors, function(err, i){
-                    alert(err.message);
+                    
                     if(err.responseText){
-                        //TODO: use JSON lint to show which part of the JSON file is broken
+
                         console.log(err.responseText);
+
+                        try{
+                            JSON.parse(err.responseText);
+                        }catch(e){
+                            err.message += ": " + e.name;
+                            err.message += " => " + e.message;
+                            console.log(e.name);
+                            console.log(e.message);
+                        }
                     } 
+
+                    alert(err.message);
+
                 });
             }
 
         }
     });
-//Listen to events for debugging 
-/*myTeam.on("all", function(eventName) {
-  console.log("collection event");
-  console.log(eventName);
-});*/
 
     //PersonView to be dispalyed on each row-click     
     var PersonView = Backbone.View.extend({
@@ -271,6 +288,7 @@ $(function(){
             //pass the Month model and compile this.template and put generated HTML in this.el 
             $(this.el).html(this.template(this.model.toJSON())); 
             $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
+            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
             //return context to enable chained calls
             return this;
         },
@@ -291,29 +309,31 @@ $(function(){
         //TODO: ???add a cancel button that resets to previous model attrs or set all attrs at once on savePerson
         updateRow : function (event) {
             console.log("update triggered");
+            //reset invalid messages and css classes
+            this.$el.find(".form-group").removeClass("has-error");
+            this.$el.find("span.help-block").text("");
             // Apply the change to the model
             var target = event.target;
             var change = {};
             change[target.name] = target.value;
             //By default model's validate method is called before save, but can also be called before set if {validate:true}
             this.model.set(target.name , target.value, {validate:true});
+            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
         },
         //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
         savePerson: function(e){
             e.preventDefault();  // preventing default submission..
             //this.model.save()
             //if(this.model.isValid())
-            this.trigger("change"); //mocking save
-            console.log("Saving person");
-            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());   //this should be in the collection not the model
+            //this.trigger("change"); //mocking save
+            console.log("Saving person..");
+               
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????
         },
         printInvalid: function(model, errors){
             var self = this;
-            console.log(this.$el);
-            debugger;
             _.each(errors, function(err, i){
                 self.$el.find("input[name='" + err.name + "']").parents(".form-group").addClass("has-error");
                 self.$el.find("input[name='" + err.name + "']").next().text(err.message);
@@ -363,7 +383,7 @@ $(function(){
   <div class="form-group">
     <label for="party_time" class="col-md-2 col-md-offset-1 control-label">Starts at</label>
     <div class="col-md-4">
-      <input type="text" class="form-control" name="party_time" value="{{party_time}}" placeholder="Starts at">
+      <input type="text" class="form-control" id="time_input" name="party_time" value="{{party_time}}" placeholder="hh:mm A">
       <span class="help-block"></span>
     </div>
   </div>
@@ -375,8 +395,6 @@ $(function(){
   </div>
 </form>
 </script>
-
-
 
 <script type="text/x-handlebars-template" id="birthday-template">
 <form class="form-horizontal" role="form">
