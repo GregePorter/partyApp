@@ -37,7 +37,13 @@ define([
             //select my Month of Birth on click
             "click .type" : "render",
             "change .form-control" :  "formChange",
-            "click .save":  "savePerson"
+            "click .save":  "savePerson",
+            "click .cancel" : "cancel"
+        },
+        cancel : function (e) {
+            this.formChanges = [];
+            this.render("");
+            e.preventDefault();  // preventing default submission..
         },
         formChange : function (e) {
             var change = { 

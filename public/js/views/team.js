@@ -38,8 +38,6 @@ define([
             "jqGridSelectRow" : "showRowDetail"
         },
         showRowDetail: function(e, rowid, eventOriginal){
-            console.log("rowid: " + rowid);
-            console.log(this.collection.get(rowid));
             
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
@@ -47,7 +45,6 @@ define([
         },
         updateRow : function(e){
             $("#grid").jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
-            console.log("updateRow");
         }
     });
 
