@@ -61,6 +61,7 @@ define([
                 this.model.set(this.formChanges[i]['name'], this.formChanges[i]['value']);
             }
             this.formChanges = [];
+            this.render("");
             e.preventDefault();  // preventing default submission..
         },
         printError: function(model, errors){
