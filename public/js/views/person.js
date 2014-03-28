@@ -7,7 +7,8 @@ define([
 ], function($, jqGrid, _, Backbone, Templates){
     var PersonView = Backbone.View.extend({
         tagName: 'ul', //this.el is a list element
-        className: 'thumbnail', //add this classname to the list element       
+        className: 'thumbnail', //add this classname to the list element   
+        formChanges: [],
         initialize: function(){
             this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
             this.listenTo(this.model, 'error',  this.printError); // all other errors
@@ -35,20 +36,26 @@ define([
         events: {
             //select my Month of Birth on click
             "click .type" : "render",
-            "change":  "updateModel",
+            "change .form-control" :  "formChange",
             "click .save":  "savePerson"
         },
-        updateModel : function (event) {
-            console.log("update triggered");
-            var target = event.target;
-            this.model.set(target.name , target.value);
+        formChange : function (e) {
+            var change = { 
+                "name" : e.target.name,
+                "value" : e.target.value
+            };
+            this.formChanges.push(change);
         },
         savePerson: function(e){
+            var that = this;
+            var i = 0;
+            var tempChange = {};
+            console.log("changeing " + this.model.get('name'));
+            for (i = 0; i < this.formChanges.length; i += 1) {
+                this.model.set(this.formChanges[i]['name'], this.formChanges[i]['value']);
+            }
+            this.formChanges = [];
             e.preventDefault();  // preventing default submission..
-            this.trigger("change");
-            console.log("Saving person");
-            this.render("");
-            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());  
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????

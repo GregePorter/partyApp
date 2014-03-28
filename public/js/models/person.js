@@ -21,7 +21,7 @@ define([
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
             this.on('change:bdate', this.updateAge);
-            this.on('all', this.printEvent); //debugging 
+            //this.on('all', this.printEvent); //debugging 
         },
         updateAge : function () {
             var now = moment();

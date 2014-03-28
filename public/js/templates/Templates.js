@@ -18,7 +18,6 @@ define([
 	// template with the given context.
 	var _compiled = function(tpl, context) {
 	    var compiled = Handlebars.compile(tpl);
-	    debugger;
 	    return context ? compiled(context) : compiled;
 	};
 

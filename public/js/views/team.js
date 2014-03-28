@@ -12,11 +12,8 @@ define([
         el: $("#grid"),
         initialize: function(){
             console.log("TeamView init");
-            this.render();
-        },
-        render: function() {
+            this.collection.on("change", this.updateRow, this);
             $(this.el).jqGrid({
-                data : this.collection.toJSON(),
                 datatype : 'local',
                 colNames :  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
@@ -33,11 +30,9 @@ define([
             });
 
             //Adds rows individually - if reqs change
-/*            this.collection.each(function(model){
+            this.collection.each(function(model){
                 $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON());
-            }); */
-
-            return this;
+            }); 
         },
         events: {
             "jqGridSelectRow" : "showRowDetail"
@@ -49,6 +44,10 @@ define([
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
             $('#person_details').html(personView.render("").el);
+        },
+        updateRow : function(e){
+            $("#grid").jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
+            console.log("updateRow");
         }
     });
 
