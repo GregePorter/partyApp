@@ -16,9 +16,7 @@ define([
 		el : $("#app"),
 		collection : {},
 		initialize : function () {
-			debugger;
 			this.collection = new Team;
-			debugger;
 			this.collection.fetch({
 				success: function(coll, response, options){
 		            console.log("fetch success");

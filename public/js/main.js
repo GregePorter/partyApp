@@ -10,7 +10,8 @@ require.config({
 		bootstrap: 'libs/bootstrap/bootstrap.min',
 		handlebars: 'libs/handlebars/handlebars-1.0.rc.1.min',
 		moment : ['libs/moment/moment.min'],
-		hbs : ['libs/require-handlebars-plugin/hbs']
+		hbs : ['libs/require-handlebars-plugin/hbs'],
+		Templates : ['templates/Templates']
 	},
 	hbs : {
 		templateExtension : 'html',

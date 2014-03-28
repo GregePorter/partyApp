@@ -9,7 +9,6 @@ define([
         //initialize: function() {
         initialize: function(models, options){
             console.log('Team collection init');
-            debugger;
             //console.log(models); 
         },
         

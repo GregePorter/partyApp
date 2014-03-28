@@ -3,14 +3,11 @@ define([
     'jqgrid',
     'underscore',
     'backbone',
-    'hbs!../templates/options',
-    'hbs!../templates/party',
-    'hbs!../templates/birthday'
-], function($, jqGrid, _, Backbone, options_template, party_template, birthday_template){
+    'Templates'
+], function($, jqGrid, _, Backbone, Templates){
     var PersonView = Backbone.View.extend({
         tagName: 'ul', //this.el is a list element
-        className: 'thumbnail', //add this classname to the list element
-       // radioButtons : $(".type"),
+        className: 'thumbnail', //add this classname to the list element       
         initialize: function(){
             this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
             this.listenTo(this.model, 'error',  this.printError); // all other errors
@@ -18,20 +15,20 @@ define([
         
         render: function(e) {
             if (e === "") {
-                $(this.el).html(options_template()); 
+                $(this.el).html(Templates.templateOptions()); 
             } else {
                 switch (e.target.value) {
                     case "party" :
-                        $(this.el).html(party_template(this.model.toJSON())); 
+                        $(this.el).html(Templates.templateParty(this.model.toJSON())); 
                         break;
                     case "birthday" :
-                        $(this.el).html(birthday_template(this.model.toJSON())); 
+                        $(this.el).html(Templates.templateBirthday(this.model.toJSON()));
                         break;
                     default :
-                        $(this.el).html(options_template()); 
+                        $(this.el).html(Templates.templateOptions()); 
                 }
             }
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020", dateFormat:"d/m/yy"});
+            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020", dateFormat:"m/d/yy"});
             return this;
         },
         
