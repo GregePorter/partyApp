@@ -97,14 +97,13 @@ $(function(){
             age: null, //Number parsed from bdate field and calculated
             bdate: "", //String from jq DatePicker
             party_theme : "",
-            party_date: "", //String
+            party_date: "", //String (M)M/(D)D/YYYY
             party_time: "", //String HH:MM
             party_where: "" //String
         },
         initialize : function () {
             _.bindAll(this, 'updateAge')
-            this.on('change:bdate', this.updateAge); //TODO: move this to view????
-            this.on('all', this.printEvent); //debugging 
+            this.on('change:bdate', this.updateAge); 
         },
         updateAge : function () {
             var now = moment();
@@ -115,9 +114,6 @@ $(function(){
             console.log("model.validate called!");
 
             var errors = [];
-            if (!attrs.name) {
-                errors.push({name: 'name', message: 'Please fill name field.'});
-            }
             if (!attrs.party_theme) {
                 errors.push({name: 'party_theme', message: 'Please fill theme field.'});
             }
@@ -131,10 +127,6 @@ $(function(){
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
             }
             return errors.length > 0 ? errors : false;                  
-        },
-        printEvent: function(eventName){
-            console.log("model event");
-            console.log(eventName);
         }
  
     });
@@ -144,16 +136,11 @@ $(function(){
         model: Person,
         initialize: function(models, options){
             console.log('Team collection init');
-            //console.log(models); 
-        },
-        
-        url: function(){
-            console.log('Team.Collection URL');
-            return '/malformedData/team.json';
-        },
+        },       
+        url: '/malformedData/team.json',
 
-        // this is fired upon fetch.success()
-        //returns team.json data in a collection backbone models
+        //parse fired upon fetch.success()
+        //returns team.json data in a collection of backbone models form
         parse: function(data, xhr) {   
             console.log('Team.Collection parse');
             return data;
@@ -175,7 +162,7 @@ $(function(){
         render: function() {
 
             $(this.el).jqGrid({
-                data : this.collection.toJSON(), 
+                data : this.collection.toJSON(), //populate grid at once 
                 datatype: 'local',
                 colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
@@ -204,7 +191,7 @@ $(function(){
             return this;
         },
         events: {
-            //jqGridBeforeSelectRow
+            //jqGrid event => callback returns rowid
             "jqGridSelectRow" : "showRowDetail"
         },
         showRowDetail: function(e, rowid, eventOriginal){
@@ -215,51 +202,60 @@ $(function(){
             var personView = new PersonView({model: aPerson}); 
             $('#detailArea').html(personView.render().el);
         }
-
     });
 
-    var myTeam = new Team();
-    var teamView;
+    var myTeam = new Team(); //collection
+    var teamView; // collection-view
+
+    //ajax call on the collection
     myTeam.fetch({
         success: function(coll, response, options){
             var now = moment();
             console.log("fetch success");
             console.log(coll);
 
+            //TODO: this should already be in team.json //we already have model.set.age on model-change
             coll.each( function (person) {
                 person.set({age : now.diff(person.get('bdate'), 'years')});
             });
 
             teamView = new TeamView({collection: coll});
-            
             //console.log(teamView.el);
             //$('#bcontent').html(teamView.el);
         },
         error: function(coll, response, options){
             console.log("fetch error");
             console.log(response);
-
+            var errors = [];
             if(response.readyState !== 4){
-                console.log("The xhr request could not be completed!");
+                 errors.push({message: 'The xhr request could not be completed!'});
             }
             if(response.status === 404){
-                return "Requested page not found. [404]";
+                errors.push({message: 'Requested page not found. [404]'});
             } 
             if(response.status === 500){
-                return "Internal Server Error. [500]";
+                errors.push({message: 'Internal Server Error. [500]'});
             } 
             if((response.responseText !== "") && (coll.models.length === 0) ){
-
-                return "Malformed JSON file!";
+                errors.push({message: "Malformed JSON file!", responseText: response.responseText});
+            }
+            if(errors.length){
+                _.each(errors, function(err, i){
+                    alert(err.message);
+                    if(err.responseText){
+                        //TODO: use JSON lint to show which part of the JSON file is broken
+                        console.log(err.responseText);
+                    } 
+                });
             }
 
         }
     });
 //Listen to events for debugging 
-myTeam.on("all", function(eventName) {
+/*myTeam.on("all", function(eventName) {
   console.log("collection event");
   console.log(eventName);
-});
+});*/
 
     //PersonView to be dispalyed on each row-click     
     var PersonView = Backbone.View.extend({
@@ -280,17 +276,19 @@ myTeam.on("all", function(eventName) {
         },
         events: {
 
-            "click .type" : "newTemplate",
+            "click .type": "newTemplate",
             "change":  "updateRow",
             "click .save":  "savePerson"
         },
+        //switches this.template based on radio selection
+        //?? effects model => action: party ??
         newTemplate : function (e) {
             var templateName = "#" + e.target.id + "-template";
             this.template = Handlebars.compile($(templateName).html());
             this.render();
         },
         //updateRow on "change" 
-        //TODO: add a cancel button that resets to previous model attrs or find a better solution
+        //TODO: ???add a cancel button that resets to previous model attrs or set all attrs at once on savePerson
         updateRow : function (event) {
             console.log("update triggered");
             // Apply the change to the model
@@ -313,8 +311,13 @@ myTeam.on("all", function(eventName) {
             console.log("error on model"); //TODO: how to handle?????
         },
         printInvalid: function(model, errors){
+            var self = this;
+            console.log(this.$el);
+            debugger;
             _.each(errors, function(err, i){
-                alert(err.message); //TODO: print on page (span.help-block) instead of alert()
+                self.$el.find("input[name='" + err.name + "']").parents(".form-group").addClass("has-error");
+                self.$el.find("input[name='" + err.name + "']").next().text(err.message);
+                //alert(err.message); 
             });
         }
  
