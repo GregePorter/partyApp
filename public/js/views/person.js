@@ -31,7 +31,7 @@ define([
                         $(this.el).html(options_template()); 
                 }
             }
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020", dateFormat:"d/m/yy"});
             return this;
         },
         
@@ -46,7 +46,7 @@ define([
             var target = event.target;
             this.model.set(target.name , target.value);
         },
-        savePerson: function(){
+        savePerson: function(e){
             e.preventDefault();  // preventing default submission..
             this.trigger("change");
             console.log("Saving person");
