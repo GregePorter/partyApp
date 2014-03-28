@@ -9,22 +9,41 @@ define([
 	'collections/team',
 	'views/team',
 	//'module name'  --ex) 'router' for router.js
-], function($, jqGrid, jqueryUI, _, Backbone, Person, Team, TeamView){
+], function($, jqGrid, jqueryUI, _, Backbone, Team, TeamView){
 
 	var person = "";
 	var PartyApp = Backbone.View.extend({
 		el : $("#app"),
 		collection : {},
 		initialize : function () {
-
+			debugger;
 			this.collection = new Team;
+			debugger;
 			this.collection.fetch({
-		        success: function(coll, response, options){
+				success: function(coll, response, options){
 		            console.log("fetch success");
-		            console.log(coll);
 
-		            var teamView = new TeamView({collection: coll});
-		     	}
+		            teamView = new TeamView({collection: coll});
+		        },
+		        error: function(coll, response, options){
+		            console.log("fetch error");
+		            console.log(response);
+
+		            if(response.readyState !== 4){
+		                console.log("The xhr request could not be completed!");
+		            }
+		            if(response.status === 404){
+		                return "Requested page not found. [404]";
+		            } 
+		            if(response.status === 500){
+		                return "Internal Server Error. [500]";
+		            } 
+		            if((response.responseText !== "") && (coll.models.length === 0) ){
+
+		                return "Malformed JSON file!";
+		            }
+
+		        }
 		    });
 		}
 

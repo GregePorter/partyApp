@@ -24,10 +24,10 @@
         "party_theme": "new apt move-in party",
         "party_date": "7/15/2014",
         "party_time": "21:00 pm",
-        "party_where": "Al's \"crib\""
+        "party_where": "802 S. 14th st."
     },
     {
-        "id": 4,
+        "id": null,
         "name": "Mr. Green",
         "bdate": "8/5/1983",
         "party_theme": "new apt move-in party",
@@ -36,7 +36,7 @@
         "party_where": "802 S. 14th st."
     },
     {
-        "id": 5,
+        "id": null,
         "name": "Mr. Blue",
         "bdate": "8/5/1982",
         "party_theme": "new apt move-in party",
@@ -45,7 +45,7 @@
         "party_where": "802 S. 14th st."
     },
     {
-        "id": 6,
+        "id": null,
         "name": "Walrus",
         "bdate": "8/5/1981",
         "party_theme": "new apt move-in party",
@@ -54,14 +54,6 @@
         "party_where": "802 S. 14th st."
     },
     {
-        "id": 7,
-        "name": "Egg Man",
-        "bdate": "8/5/1980",
-        "party_theme": "new apt move-in party",
-        "party_date": "5/13/2014",
-        "party_time": "7:30 pm",
-        "party_where": "802 S. 14th st."
-    },    {
         "id": 7,
         "name": "Egg Man",
         "bdate": "8/5/1980",

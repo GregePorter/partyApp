@@ -21,17 +21,37 @@ define([
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
             this.on('change:bdate', this.updateAge);
+            this.on('all', this.printEvent); //debugging 
         },
         updateAge : function () {
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
         },
-        //validate => triggers "invalid" //TODO: add to modelView
-        //TODO: complete validation using moment.js, jq Date picker etc.
+        //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
-            if ( attrs.party.date < moment() ) {
-              return "can't start earlier than today";
-            }            
+            console.log("model.validate called!");
+
+            var errors = [];
+            if (!attrs.name) {
+                errors.push({name: 'name', message: 'Please fill name field.'});
+            }
+            if (!attrs.party_theme) {
+                errors.push({name: 'party_theme', message: 'Please fill theme field.'});
+            }
+            if (!attrs.party_time) {
+                errors.push({name: 'party_time', message: 'Please fill time field.'});
+            }
+            if (moment().isAfter(attrs.party_date)){
+                errors.push({name: 'party_time', message: 'Cannot start earlier than today.'});
+            }
+            if (!moment().isAfter(attrs.bdate)){
+                errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
+            }
+            return errors.length > 0 ? errors : false;                  
+        },
+        printEvent: function(eventName){
+            console.log("model event");
+            console.log(eventName);
         }
 
     });

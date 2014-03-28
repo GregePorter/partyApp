@@ -10,16 +10,15 @@ define([
     var TeamView = Backbone.View.extend({
         
         el: $("#grid"),
-        
         initialize: function(){
             console.log("TeamView init");
             this.render();
         },
         render: function() {
-
             $(this.el).jqGrid({
-                datatype: 'local',
-                colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
+                data : this.collection.toJSON(),
+                datatype : 'local',
+                colNames :  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
                             {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
                             {name : 'name', index : 'name', resizeable : true},
@@ -27,15 +26,16 @@ define([
                             {name : 'bdate', index : 'bdate', resizeable : true},
                             {name : 'party_date', index : 'party_date', resizeable : true}
                 ],
-                sortname: 'bdate, name asc',
-                sortorder: "asc",
+                sortname : 'bdate, name asc',
+                sortorder : "asc",
                 caption : "Party App",
                 height : "auto"
             });
 
-            this.collection.each(function(model){
+            //Adds rows individually - if reqs change
+/*            this.collection.each(function(model){
                 $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON());
-            }); 
+            }); */
 
             return this;
         },

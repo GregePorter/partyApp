@@ -12,10 +12,11 @@ define([
         className: 'thumbnail', //add this classname to the list element
        // radioButtons : $(".type"),
         initialize: function(){
+            this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
+            this.listenTo(this.model, 'error',  this.printError); // all other errors
         },
         
         render: function(e) {
-            debugger;
             if (e === "") {
                 $(this.el).html(options_template()); 
             } else {
@@ -46,10 +47,19 @@ define([
             this.model.set(target.name , target.value);
         },
         savePerson: function(){
+            e.preventDefault();  // preventing default submission..
             this.trigger("change");
             console.log("Saving person");
             this.render("");
             $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());  
+        },
+        printError: function(model, errors){
+            console.log("error on model"); //TODO: how to handle?????
+        },
+        printInvalid: function(model, errors){
+            _.each(errors, function(err, i){
+                alert(err.message); //TODO: print on page (span.help-block) instead of alert()
+            });
         }
 
     });

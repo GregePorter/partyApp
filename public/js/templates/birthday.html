@@ -1,4 +1,15 @@
-<label>Birthday : </label>
-<input type="text" size="25" id="date_input" name="bdate" value="{{bdate}}"></input>
-<br>
-<button class="save">Save the birthday</button>
+<form class="form-horizontal" role="form">
+  <div class="form-group">
+    <label for="bdate" class="col-md-2 col-md-offset-1 control-label">Birthdate</label>
+    <div class="col-md-4">
+      <input type="text" class="form-control" id="date_input" name="bdate" value="{{bdate}}" placeholder="Birthdate..">
+      <span class="help-block"></span>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-md-2 col-md-offset-2">
+      <button type="submit" class="btn btn-default save">Save</button>
+    </div>
+  </div>
+</form>

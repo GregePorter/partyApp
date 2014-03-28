@@ -6,19 +6,22 @@ define([
 ], function($, _, Backbone, Person){
     var Team = Backbone.Collection.extend({
         model: Person,
-        initialize: function() {
-        // initialize: function(models, options){
+        //initialize: function() {
+        initialize: function(models, options){
             console.log('Team collection init');
+            debugger;
             //console.log(models); 
         },
         
-        url: '../../team.json',
-
+        url : '/team.json',
+/*        url: function(){
+            console.log('Team.Collection URL');
+            return '/malformedData/team.json';
+        },*/
         parse: function(data, xhr) {  // this is fired upon fetch() 
-            console.log('Team collection parse -> returns team.json data');
+            console.log('Team Collection parse');
             return data;
         }
     });
-
     return Team;
 });

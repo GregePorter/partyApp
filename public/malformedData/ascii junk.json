@@ -1,7 +1,7 @@
 [
     {
         "id": 1,
-        "name": "Al Sahin",
+        "name": "Al Sahin\n",
         "bdate": "8/5/1983",
         "party_theme": "new apt move-in party",
         "party_date": "4/22/2014",
@@ -10,7 +10,7 @@
     },
     {
         "id": 2,
-        "name": "Mr. T",
+        "name": "Mr. T\n\nA-Team",
         "bdate": "5/5/1985",
         "party_theme": "new apt move-in party",
         "party_date": "5/12/2015",
@@ -18,17 +18,11 @@
         "party_where": "802 S. 14th st."
     },
     {
-        "id": 3,
-        "name": "Mr. Pink",
-        "bdate": "9/7/1984",
-        "party_theme": "new apt move-in party",
-        "party_date": "7/15/2014",
-        "party_time": "21:00 pm",
-        "party_where": "Al's \"crib\""
+
     },
     {
         "id": 4,
-        "name": "Mr. Green",
+        "name": "Mr.&nbsp;Green",
         "bdate": "8/5/1983",
         "party_theme": "new apt move-in party",
         "party_date": "6/3/2017",
@@ -37,8 +31,8 @@
     },
     {
         "id": 5,
-        "name": "Mr. Blue",
-        "bdate": "8/5/1982",
+        "name": "Mr. Blue\r\n",
+        "bdate": "\0",
         "party_theme": "new apt move-in party",
         "party_date": "8/7/2018",
         "party_time": "8:45 pm",
@@ -54,14 +48,6 @@
         "party_where": "802 S. 14th st."
     },
     {
-        "id": 7,
-        "name": "Egg Man",
-        "bdate": "8/5/1980",
-        "party_theme": "new apt move-in party",
-        "party_date": "5/13/2014",
-        "party_time": "7:30 pm",
-        "party_where": "802 S. 14th st."
-    },    {
         "id": 7,
         "name": "Egg Man",
         "bdate": "8/5/1980",
