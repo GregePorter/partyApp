@@ -23,25 +23,32 @@ define([
 
 		            teamView = new TeamView({collection: coll});
 		        },
-		        error: function(coll, response, options){
+				error: function(coll, response, options){
 		            console.log("fetch error");
 		            console.log(response);
-
+		            var errors = [];
 		            if(response.readyState !== 4){
-		                console.log("The xhr request could not be completed!");
+		                 errors.push({message: 'The xhr request could not be completed!'});
 		            }
 		            if(response.status === 404){
-		                return "Requested page not found. [404]";
+		                errors.push({message: 'Requested page not found. [404]'});
 		            } 
 		            if(response.status === 500){
-		                return "Internal Server Error. [500]";
+		                errors.push({message: 'Internal Server Error. [500]'});
 		            } 
 		            if((response.responseText !== "") && (coll.models.length === 0) ){
-
-		                return "Malformed JSON file!";
+		                errors.push({message: "Malformed JSON file!", responseText: response.responseText});
 		            }
-
-		        }
+		            if(errors.length){
+		                _.each(errors, function(err, i){
+		                    alert(err.message);
+		                    if(err.responseText){
+		                        //TODO: use JSON lint to show which part of the JSON file is broken
+		                        console.log(err.responseText);
+		                    } 
+		                });
+		            }
+				}
 		    });
 		}
 

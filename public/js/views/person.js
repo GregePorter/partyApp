@@ -28,7 +28,7 @@ define([
                         $(this.el).html(Templates.templateOptions()); 
                 }
             }
-            $("#date_input").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020", dateFormat:"m/d/yy"});
+            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
             return this;
         },
         
@@ -54,8 +54,12 @@ define([
             console.log("error on model"); //TODO: how to handle?????
         },
         printInvalid: function(model, errors){
+            var self = this;
+            console.log(this.$el);
             _.each(errors, function(err, i){
-                alert(err.message); //TODO: print on page (span.help-block) instead of alert()
+                self.$el.find("input[name='" + err.name + "']").parents(".form-group").addClass("has-error");
+                self.$el.find("input[name='" + err.name + "']").next().text(err.message);
+                //alert(err.message); 
             });
         }
 
