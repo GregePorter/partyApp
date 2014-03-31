@@ -29,6 +29,7 @@ define([
         },
         //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
+            debugger;
             console.log("model.validate called!");
 
             var errors = [];

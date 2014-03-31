@@ -14,6 +14,7 @@ define([
             this.listenTo(this.model, 'error',  this.printError); // all other errors
         },
         
+        //checks to see what for the 
         render: function(e) {
             if (e === "") {
                 $(this.el).html(Templates.templateOptions()); 
@@ -53,15 +54,13 @@ define([
             this.formChanges.push(change);
         },
         savePerson: function(e){
-            var that = this;
             var i = 0;
             var tempChange = {};
-            console.log("changeing " + this.model.get('name'));
             for (i = 0; i < this.formChanges.length; i += 1) {
-                this.model.set(this.formChanges[i]['name'], this.formChanges[i]['value']);
+                this.model.set(this.formChanges[i]['name'] , this.formChanges[i]['value'], {validate : true});
             }
             this.formChanges = [];
-            this.render("");
+            //this.render("");
             e.preventDefault();  // preventing default submission..
         },
         printError: function(model, errors){

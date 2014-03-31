@@ -9,11 +9,15 @@ define([
 ], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
     var TeamView = Backbone.View.extend({
         
-        el: $("#grid"),
+        //el: $("#grid"),
+        testGrid : $("#grid"),
         initialize: function(){
             console.log("TeamView init");
+            _.bindAll(this, "showRowDetail", "updateRow");
             this.collection.on("change", this.updateRow, this);
-            $(this.el).jqGrid({
+            this.testGrid.on("jqGridSelectRow", this.showRowDetail);
+            var that = this;
+            this.testGrid.jqGrid({
                 datatype : 'local',
                 colNames :  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
@@ -31,20 +35,19 @@ define([
 
             //Adds rows individually - if reqs change
             this.collection.each(function(model){
-                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON());
+                that.testGrid.jqGrid('addRowData', model.get('id'), model.toJSON());
             }); 
         },
         events: {
-            "jqGridSelectRow" : "showRowDetail"
+            "jqGridSelectRow" : "showRowDetail",
         },
         showRowDetail: function(e, rowid, eventOriginal){
-            
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
             $('#person_details').html(personView.render("").el);
         },
         updateRow : function(e){
-            $("#grid").jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
+            this.testGrid.jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
         }
     });
 
