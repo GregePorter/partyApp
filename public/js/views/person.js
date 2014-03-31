@@ -10,6 +10,9 @@ define([
         className: 'thumbnail', //add this classname to the list element   
         formChanges: [],
         initialize: function(){
+            this.realModel = this.model;
+            this.model = this.realModel.clone();
+
             this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
             this.listenTo(this.model, 'error',  this.printError); // all other errors
         },
@@ -47,21 +50,11 @@ define([
             e.preventDefault();  // preventing default submission..
         },
         formChange : function (e) {
-            var change = { 
-                "name" : e.target.name,
-                "value" : e.target.value
-            };
-            this.formChanges.push(change);
+            this.model.set(e.target.name , e.target.value, {validate:true}, {silent : true});
         },
         savePerson: function(e){
-            var i = 0;
-            var test = "";
-            var tempChange = {};
-            for (i = 0; i < this.formChanges.length; i += 1) {
-                this.model.set(this.formChanges[i]['name'] , this.formChanges[i]['value'], {validate : true});
-            }
-            this.formChanges = [];
-            //this.render("");
+            this.realModel.set(this.model.attributes);
+            this.render("");
             e.preventDefault();  // preventing default submission..
         },
         printError: function(model, errors){

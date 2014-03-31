@@ -23,8 +23,9 @@ define([
 
 		            teamView = new TeamView({collection: coll});
 		        },
+
 				error: function(coll, response, options){
-		            console.log("fetch error");
+					console.log("fetch error");
 		            console.log(response);
 		            var errors = [];
 		            if(response.readyState !== 4){
@@ -37,15 +38,27 @@ define([
 		                errors.push({message: 'Internal Server Error. [500]'});
 		            } 
 		            if((response.responseText !== "") && (coll.models.length === 0) ){
-		                errors.push({message: "Malformed JSON file!", responseText: response.responseText});
+		                errors.push({message: "Malformed JSON", responseText: response.responseText});
 		            }
 		            if(errors.length){
 		                _.each(errors, function(err, i){
-		                    alert(err.message);
+		                    
 		                    if(err.responseText){
-		                        //TODO: use JSON lint to show which part of the JSON file is broken
+
 		                        console.log(err.responseText);
+
+		                        try{
+		                            JSON.parse(err.responseText);
+		                        }catch(e){
+		                            err.message += ": " + e.name;
+		                            err.message += " => " + e.message;
+		                            console.log(e.name);
+		                            console.log(e.message);
+		                        }
 		                    } 
+
+		                    alert(err.message);
+
 		                });
 		            }
 				}

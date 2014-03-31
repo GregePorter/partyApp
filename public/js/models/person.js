@@ -32,17 +32,17 @@ define([
             console.log("model.validate called!");
 
             var errors = [];
-            if (!attrs.name) {
-                errors.push({name: 'name', message: 'Please fill name field.'});
-            }
             if (!attrs.party_theme) {
                 errors.push({name: 'party_theme', message: 'Please fill theme field.'});
             }
             if (!attrs.party_time) {
                 errors.push({name: 'party_time', message: 'Please fill time field.'});
             }
+            if (!moment(attrs.party_time, 'h:mm A').isValid()) {
+                errors.push({name: 'party_time', message: 'Please enter a valid time.'});
+            }
             if (moment().isAfter(attrs.party_date)){
-                errors.push({name: 'party_time', message: 'Cannot start earlier than today.'});
+                errors.push({name: 'party_date', message: 'Cannot start earlier than today.'});
             }
             if (!moment().isAfter(attrs.bdate)){
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
