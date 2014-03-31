@@ -55,6 +55,7 @@ define([
         },
         savePerson: function(e){
             var i = 0;
+            var test = "";
             var tempChange = {};
             for (i = 0; i < this.formChanges.length; i += 1) {
                 this.model.set(this.formChanges[i]['name'] , this.formChanges[i]['value'], {validate : true});
