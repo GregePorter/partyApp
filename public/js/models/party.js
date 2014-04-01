@@ -7,7 +7,7 @@ define([
     var Party = Backbone.Model.extend({
 
         defaults: {
-            party_pid : null,
+            party_id : null,
             person_id : "",
             party_theme : "",
             party_date: "", //String

@@ -2,81 +2,46 @@
     {
         "id": 1,
         "name": "Al Sahin",
-        "bdate": "8/5/1983",
-        "party_theme": "new apt move-in party",
-        "party_date": "4/22/2014",
-        "party_time": "8:00 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "8/5/1983"
     },
     {
         "id": 2,
         "name": "Mr. T",
-        "bdate": "5/5/1985",
-        "party_theme": "new apt move-in party",
-        "party_date": "5/12/2015",
-        "party_time": "8:30 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "5/5/1985"
     },
     {
         "id": 3,
         "name": "Mr. Pink",
-        "bdate": "9/7/1984",
-        "party_theme": "new apt move-in party",
-        "party_date": "7/15/2014",
-        "party_time": "21:00 pm",
-        "party_where": "Al's \"crib\""
+        "bdate": "9/7/1984"
     },
     {
         "id": 4,
         "name": "Mr. Green",
-        "bdate": "8/5/1983",
-        "party_theme": "new apt move-in party",
-        "party_date": "6/3/2017",
-        "party_time": "8:00 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "8/5/1983"
     },
     {
         "id": 5,
         "name": "Mr. Blue",
-        "bdate": "8/5/1982",
-        "party_theme": "new apt move-in party",
-        "party_date": "8/7/2018",
-        "party_time": "8:45 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "8/5/1982"
     },
     {
         "id": 6,
         "name": "Walrus",
-        "bdate": "8/5/1981",
-        "party_theme": "new apt move-in party",
-        "party_date": "4/30/2014",
-        "party_time": "8:00 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "8/5/1981"
     },
     {
         "id": 7,
         "name": "Egg Man",
-        "bdate": "8/5/1980",
-        "party_theme": "new apt move-in party",
-        "party_date": "5/13/2014",
-        "party_time": "7:30 pm",
-        "party_where": "802 S. 14th st."
-    },    {
+        "bdate": "8/5/1980"
+    },   
+    {
         "id": 7,
         "name": "Egg Man",
-        "bdate": "8/5/1980",
-        "party_theme": "new apt move-in party",
-        "party_date": "5/13/2014",
-        "party_time": "7:30 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "8/5/1980"
     },
     {
         "id": 8,
         "name": "Mr. Tati",
-        "bdate": "9/15/1979",
-        "party_theme": "new apt move-in party",
-        "party_date": "10/22/2014",
-        "party_time": "8:00 pm",
-        "party_where": "802 S. 14th st."
+        "bdate": "9/15/1979"
     }
 ]
