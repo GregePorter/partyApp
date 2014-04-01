@@ -4,13 +4,13 @@ define([
     'jqueryui',
     'underscore',
     'backbone',
-    'collections/team',
-    'views/person'
-], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
+    'collections/parties',
+    'views/party'
+], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView){
     var TeamView = Backbone.View.extend({
-        el : $("#grid"),
+        el : $("#party-grid"),
         initialize: function(){
-            console.log("TeamView init");
+            console.log("PartiesView init");
             _.bindAll(this, "showRowDetail", "updateRow", "render");
             this.collection.on("change", this.updateRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
             this.render();
@@ -19,14 +19,14 @@ define([
             $(this.el).jqGrid({
                 data : this.collection.toJSON(),
                 datatype : 'local',
-                colNames :  [ 'id', 'Name', 'Age', 'Birthday'],
+                colNames :  [ 'id', 'Theme', 'Date', 'Time'],
                 colModel : [
-                            {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
-                            {name : 'name', index : 'name', resizeable : true},
-                            {name : 'age', index : 'age', resizeable : true},
-                            {name : 'bdate', index : 'bdate', resizeable : true}
+                            {name : 'party_id', index : 'party_id', key : true, resizeable : true, hidden: true},
+                            {name : 'party_theme', index : 'party_theme', resizeable : true},
+                            {name : 'party_date', index : 'party_date', resizeable : true},
+                            {name : 'party_time', index : 'party_time', resizeable : true}
                 ],
-                sortname : 'bdate, name asc',
+                sortname : 'party_id asc',
                 sortorder : "asc",
                 caption : "Party App",
                 height : "auto"
@@ -38,8 +38,8 @@ define([
         },
         //When a row is clicked, render person for the model described by that row
         showRowDetail: function(e, rowid, eventOriginal){
-            var aPerson = this.collection.get(rowid);
-            var personView = new PersonView({model: aPerson}); 
+            var aParty = this.collection.get(rowid);
+            var partyView = new PartyView({model: aParty}); 
             $('#person_details').html(personView.render("").el);
         },
         //updates the rows with any new values

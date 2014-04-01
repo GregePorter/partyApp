@@ -3,7 +3,8 @@ define([
     'underscore',
     'backbone',
     'Templates',
-], function($, _, Backbone, Templates){
+    'timepicker'
+], function($, _, Backbone, Templates, timepicker){
     var PersonView = Backbone.View.extend({
         tagName: 'ul', //this.el is a list element
         className: 'thumbnail', //add this classname to the list element   
@@ -12,7 +13,7 @@ define([
         //if we save the changes then they will be applied,
         //otherwise we will discard the changes and revert the model to it's original values
         initialize: function(){
-            this.realModel = this.model;        
+            this.realModel = this.model;
             this.model = this.realModel.clone();
             this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
             this.listenTo(this.model, 'error',  this.printError); // all other errors
@@ -20,15 +21,15 @@ define([
         
         //this single view has three different templates. The options template is the basic, radio button template.
         //Depending on which radio button the user clicks, a different template is applied and rendered.
-        render: function(e) {
-            $(this.el).html(Templates.templateBirthday(this.model.toJSON()));
+        render: function() {
+            $(this.el).html(Templates.templateParty(this.model.toJSON()));
             $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
             return this;
         },
-        
         events: {
             "change .form-control" :  "formChange",
-            "click .save":  "savePerson",
+            "click .save":  "saveParty",
             "click .cancel" : "cancel"
         },
         cancel : function (e) {
@@ -40,7 +41,7 @@ define([
             this.model.set(e.target.name , e.target.value, {validate:true}, {silent : true});
         },
         //When the user clicks the save button, the model is updated which triggers the collection to update the corresponding row.
-        savePerson: function(e){
+        saveParty: function(e){
             this.realModel.set(this.model.attributes);
             e.preventDefault();  // preventing default submission..
             this.render();
@@ -59,5 +60,5 @@ define([
 
     });
     
-    return  PersonView;
+    return  PartyView;
 });

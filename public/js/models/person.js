@@ -9,12 +9,7 @@ define([
         defaults: {
             name: "", //String
             age: null, //Number parsed from bdate field and calculated
-            bdate: "", //String from jq DatePicker
-            party_pid : null,
-            party_theme : "",
-            party_date: "", //String
-            party_time: "", //String HH:MM
-            party_where: "" //String
+            bdate: ""
         },
         initialize : function () {
             _.bindAll(this, 'updateAge');
@@ -32,19 +27,6 @@ define([
         validate: function(attrs, options){
             console.log("model.validate called!");
 
-            var errors = [];
-            if (!attrs.party_theme) {
-                errors.push({name: 'party_theme', message: 'Please fill theme field.'});
-            }
-            if (!attrs.party_time) {
-                errors.push({name: 'party_time', message: 'Please fill time field.'});
-            }
-            if (!moment(attrs.party_time, 'h:mm A').isValid()) {
-                errors.push({name: 'party_time', message: 'Please enter a valid time.'});
-            }
-            if (moment().isAfter(attrs.party_date)){
-                errors.push({name: 'party_date', message: 'Cannot start earlier than today.'});
-            }
             if (!moment().isAfter(attrs.bdate)){
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
             }

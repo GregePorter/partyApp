@@ -2,14 +2,12 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    '../models/person'
-], function($, _, Backbone, Person){
-    var Team = Backbone.Collection.extend({
-        model: Person,
-        parties : {},
+    '../models/party'
+], function($, _, Backbone, Party){
+    var Parties = Backbone.Collection.extend({
+        model: Party,
         initialize: function(models, options){
-            console.log('Team collection init');
-            //this.parties = read in party data and make a new Parties collection
+            console.log('Parties collection init');
         },
         
         url : '/team.json',
@@ -18,9 +16,9 @@ define([
             return '/malformedData/team.json';
         },*/
         parse: function(data, xhr) {  // this is fired upon fetch() 
-            console.log('Team Collection parse');
+            console.log('Parties Collection parse');
             return data;
         }
     });
-    return Team;
+    return Parties;
 });
