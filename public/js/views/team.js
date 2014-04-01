@@ -45,7 +45,7 @@ define([
         },
         //updates the rows with any new values
         updateRow : function(e){
-            $(this.el).testGrid.jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
+            $(this.el).jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
         }
     });
 

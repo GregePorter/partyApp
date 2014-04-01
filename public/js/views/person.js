@@ -29,7 +29,6 @@ define([
                     case "party" :
                         $(this.el).html(Templates.templateParty(this.model.toJSON()));
                         $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
-                        debugger;
                         $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
                         break;
                     case "birthday" :
@@ -60,8 +59,8 @@ define([
         //When the user clicks the save button, the model is updated which triggers the collection to update the corresponding row.
         savePerson: function(e){
             this.realModel.set(this.model.attributes);
-            this.render("");
             e.preventDefault();  // preventing default submission..
+            this.render("");
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????
