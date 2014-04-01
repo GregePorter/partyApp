@@ -17,12 +17,13 @@ define([
             party_where: "" //String
         },
         initialize : function () {
-            _.bindAll(this, 'updateAge')
+            _.bindAll(this, 'updateAge');
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
             this.on('change:bdate', this.updateAge);
-            //this.on('all', this.printEvent); //debugging 
         },
+
+        //updates this.model's Age based on the Birthday with respect to the current time (according to MomentJS)
         updateAge : function () {
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});

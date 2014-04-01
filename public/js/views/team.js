@@ -8,16 +8,16 @@ define([
     'views/person'
 ], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
     var TeamView = Backbone.View.extend({
-        
-        //el: $("#grid"),
-        testGrid : $("#grid"),
+        el : $("#grid"),
         initialize: function(){
             console.log("TeamView init");
-            _.bindAll(this, "showRowDetail", "updateRow");
-            this.collection.on("change", this.updateRow, this);
-            this.testGrid.on("jqGridSelectRow", this.showRowDetail);
-            var that = this;
-            this.testGrid.jqGrid({
+            _.bindAll(this, "showRowDetail", "updateRow", "render");
+            this.collection.on("change", this.updateRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
+            this.render();
+        },
+        render : function () {
+            $(this.el).jqGrid({
+                data : this.collection.toJSON(),
                 datatype : 'local',
                 colNames :  [ 'id', 'Name', 'Age', 'Birthday', 'Party Date'],
                 colModel : [
@@ -32,22 +32,20 @@ define([
                 caption : "Party App",
                 height : "auto"
             });
-
-            //Adds rows individually - if reqs change
-            this.collection.each(function(model){
-                that.testGrid.jqGrid('addRowData', model.get('id'), model.toJSON());
-            }); 
+            return this;
         },
-        events: {
-            "jqGridSelectRow" : "showRowDetail",
+        events : {
+            "jqGridSelectRow" : "showRowDetail"
         },
+        //When a row is clicked, render person for the model described by that row
         showRowDetail: function(e, rowid, eventOriginal){
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
             $('#person_details').html(personView.render("").el);
         },
+        //updates the rows with any new values
         updateRow : function(e){
-            this.testGrid.jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
+            $(this.el).testGrid.jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
         }
     });
 
