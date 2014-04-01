@@ -23,7 +23,6 @@ define([
 
 		            teamView = new TeamView({collection: coll});
 		        },
-
 				error: function(coll, response, options){
 					console.log("fetch error");
 		            console.log(response);

@@ -10,7 +10,7 @@ define([
             console.log('Parties collection init');
         },
         
-        url : '/team.json',
+        url : '/parties.json',
 /*        url: function(){
             console.log('Team.Collection URL');
             return '/malformedData/team.json';

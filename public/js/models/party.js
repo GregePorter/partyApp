@@ -11,8 +11,7 @@ define([
             person_id : "",
             party_theme : "",
             party_date: "", //String
-            party_time: "", //String HH:MM
-            party_where: "" //String
+            party_time: "" //String HH:MM
         },
         initialize : function () {
         },
