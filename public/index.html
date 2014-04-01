@@ -239,9 +239,7 @@ $(function(){
             //$('#bcontent').html(teamView.el);
         },
 
-        //TODO: validating JSON object based on default model data types ???
-        //if allowing empty/null on a field
-        //if datatype is the expected type etc. 
+        //TODO: validating JSON object based on default model data types ??? 
 
         error: function(coll, response, options){
             console.log("fetch error");
@@ -376,7 +374,7 @@ $(function(){
         printInvalid: function(model, errors){
             var self = this;
             _.each(errors, function(err, i){
-                //TODO: overwite error messages for this specific view
+                //TODO: overwite error messages for this specific view ???
 
                 self.$el.find("input[name='" + err.name + "']").parents(".form-group").addClass("has-error");
                 self.$el.find("input[name='" + err.name + "']").next().text(err.message);
