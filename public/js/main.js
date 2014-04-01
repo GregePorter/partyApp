@@ -40,7 +40,7 @@ require.config({
 		},
 		timepicker : {
 			deps : ["jquery", "jqueryui"],
-			exports : 'jquery'
+			exports : 'timepicker'
 		}
 	}
 });

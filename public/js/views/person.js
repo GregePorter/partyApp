@@ -29,6 +29,7 @@ define([
                     case "party" :
                         $(this.el).html(Templates.templateParty(this.model.toJSON()));
                         $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+                        debugger;
                         $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
                         break;
                     case "birthday" :
