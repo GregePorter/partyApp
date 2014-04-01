@@ -8,8 +8,9 @@ define([
 	'backbone',
 	'collections/team',
 	'views/team',
+	'controllers/partyapi'
 	//'module name'  --ex) 'router' for router.js
-], function($, jqGrid, jqueryUI, _, Backbone, Team, TeamView){
+], function($, jqGrid, jqueryUI, _, Backbone, Team, TeamView, PartyAPI){
 
 	var person = "";
 	var PartyApp = Backbone.View.extend({
