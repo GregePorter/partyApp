@@ -24,3 +24,9 @@ partyApp
 -	Try to avoid using any id’s unless there is no other way
 -	Try to use bootstrap as a style guide, and only use custom classes where needed.
 		TODO: Check out boostrap and update as needed
+
+New requirements:
+-       People can have multiple parties
+-       	-Get rid of party info in the person and put it in a Party Model
+-       When you click on a TeamView-grid row, a second JQGrid will display an list the parties which that person is going to.
+-       	-The columns should be Theme, Time, Date
