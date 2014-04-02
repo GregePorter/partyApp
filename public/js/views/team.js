@@ -10,7 +10,6 @@ define([
     var TeamView = Backbone.View.extend({
         el : $("#grid"),
         initialize: function(){
-            debugger;
             console.log("TeamView init");
             _.bindAll(this, "showRowDetail", "updateRow", "render");
             this.collection.on("change", this.updateRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
@@ -39,9 +38,10 @@ define([
         },
         //When a row is clicked, render person for the model described by that row
         showRowDetail: function(e, rowid, eventOriginal){
+            debugger;
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
-            $('#person_details').html(personView.render("").el);
+            $('#person_details').html(personView.render().el);
         },
         //updates the rows with any new values
         updateRow : function(e){

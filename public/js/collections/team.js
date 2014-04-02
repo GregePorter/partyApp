@@ -6,7 +6,6 @@ define([
 ], function($, _, Backbone, Person){
     var Team = Backbone.Collection.extend({
         model: Person,
-        parties : {},
         initialize: function(models, options){
             console.log('Team collection init');
             //this.parties = read in party data and make a new Parties collection

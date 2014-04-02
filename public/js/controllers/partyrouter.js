@@ -10,7 +10,7 @@ define([
 	'collections/parties',
 	'views/parties',
 	'views/team'
-], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, PartyView, TeamView){
+], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, PartiesView, TeamView){
 	var PartyRouter = Backbone.Router.extend({
 		routerTeam : {},
 		routerParties : {},
@@ -18,7 +18,7 @@ define([
 			var team = new Team;
 			var parties = new Parties;
 
-			$.when(
+			var test = $.when(
 				team.fetch({
 					success: function(coll, response, options){
 			            console.log("team fetch success");
@@ -107,8 +107,9 @@ define([
 				})).done(function(team, parties){
 					var teamCol = new Team(team[0]);
 					var partiesCol = new Parties(parties[0]);
-					var teamview = new TeamView({collection : teamCol});
-					var partyView = new PartyView({collection : partiesCol});
+
+					var teamView = new TeamView({collection : teamCol});
+					var partyView = new PartiesView({collection : partiesCol});
 				});
 		},
 		test : function () {

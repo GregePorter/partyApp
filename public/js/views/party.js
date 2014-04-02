@@ -23,8 +23,8 @@ define([
         //Depending on which radio button the user clicks, a different template is applied and rendered.
         render: function() {
             $(this.el).html(Templates.templateParty(this.model.toJSON()));
-            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
-            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            this.$("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+            this.$("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
             return this;
         },
         events: {

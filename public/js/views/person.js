@@ -20,9 +20,9 @@ define([
         
         //this single view has three different templates. The options template is the basic, radio button template.
         //Depending on which radio button the user clicks, a different template is applied and rendered.
-        render: function(e) {
+        render: function() {
             $(this.el).html(Templates.templateBirthday(this.model.toJSON()));
-            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+            this.$("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
             return this;
         },
         
@@ -32,8 +32,8 @@ define([
             "click .cancel" : "cancel"
         },
         cancel : function (e) {
-            this.render();
             e.preventDefault();  // preventing default submission..
+            this.render();
         },
         //when the form is changed the clonedModel is updated with validation and silently so as to avoid causing an update to the Grid
         formChange : function (e) {

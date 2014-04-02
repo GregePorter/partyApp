@@ -21,12 +21,12 @@ define([
                 datatype : 'local',
                 colNames :  [ 'id', 'Theme', 'Date', 'Time'],
                 colModel : [
-                            {name : 'party_id', index : 'party_id', key : true, resizeable : true, hidden: true},
+                            {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
                             {name : 'party_theme', index : 'party_theme', resizeable : true},
                             {name : 'party_date', index : 'party_date', resizeable : true},
                             {name : 'party_time', index : 'party_time', resizeable : true}
                 ],
-                sortname : 'party_id asc',
+                sortname : 'party_date asc',
                 sortorder : "asc",
                 caption : "Party App",
                 height : "auto"
@@ -38,9 +38,10 @@ define([
         },
         //When a row is clicked, render person for the model described by that row
         showRowDetail: function(e, rowid, eventOriginal){
+            debugger;
             var aParty = this.collection.get(rowid);
             var partyView = new PartyView({model: aParty}); 
-            $('#person_details').html(personView.render("").el);
+            $('#person_details').html(partyView.render("").el);
         },
         //updates the rows with any new values
         updateRow : function(e){

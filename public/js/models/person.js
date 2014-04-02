@@ -25,6 +25,7 @@ define([
         },
         //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
+            var errors = [];
             console.log("model.validate called!");
 
             if (!moment().isAfter(attrs.bdate)){
