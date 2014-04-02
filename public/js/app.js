@@ -1,7 +1,5 @@
 //Filename: app.js
 
-//Filename: party.js
-
 define([
 	'jquery',
 	'jqgrid',
@@ -18,28 +16,25 @@ define([
 	    var teamView; // collection-view
 
 	    //ajax call on the collection
-	    myTeam.fetch({
-
-	        success: function(coll, response, options){
+	    $.ajax({
+		  	url: 'team.json',
+		  	dataType: 'json',
+	        success: function(data){
 	            var now = moment();
 	            console.log("fetch success");
-	            console.log(coll);
+	            
+	            myTeam.reset(data['team']);
+
 
 	            //TODO: this should already be in team.json //we already have model.set.age on model-change
-	            coll.each( function (person) {
+	            myTeam.each( function (person) {
 
-	                //TODO: 3rd validation stage: Handle invalid logic in the data
-	                if(person.isValid()){
-	                    person.set({age : now.diff(person.get('bdate'), 'years')});
-	                }else{  
-	                    person.clear();
-	                }
+	            	person.set({age : now.diff(person.get('bdate'), 'years')});
 	                
 	            });	            
 
-	            teamView = new TeamView({collection: coll});
-	            //console.log(teamView.el);
-	            //$('#bcontent').html(teamView.el);
+	            teamView = new TeamView({collection: myTeam}); //renders on initialize()
+
 	        },
 
 	        //TODO: validating JSON object based on default model data types ??? 

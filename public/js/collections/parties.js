@@ -2,15 +2,15 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    '../models/person'
-], function($, _, Backbone, Person){
+    '../models/party'
+], function($, _, Backbone, Party){
     //Collection of Months of a year
     var Team = Backbone.Collection.extend({
         
         model: Person,
         
         initialize: function(models, options){
-            console.log('Team collection init');
+            console.log('Parties collection init');
         } 
 
         //url: '/team.json',
