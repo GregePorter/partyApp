@@ -7,7 +7,7 @@ define([
     'collections/parties',
     'views/party'
 ], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView){
-    var TeamView = Backbone.View.extend({
+    var PartiesView = Backbone.View.extend({
         el : $("#party-grid"),
         initialize: function(){
             console.log("PartiesView init");
@@ -48,5 +48,5 @@ define([
         }
     });
 
-    return TeamView;
+    return PartiesView;
 });

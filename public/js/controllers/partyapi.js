@@ -60,7 +60,6 @@ define([
 		parties.fetch({
 			success: function(coll, response, options){
 	            console.log(" parties fetch success");
-	            debugger;
 	        },
 			error: function(coll, response, options){
 				console.log("fetch error");
@@ -101,9 +100,17 @@ define([
 	            }
 			}
 		});
-
-		debugger;
 		//calculate a person's parties
+		return {
+			team : team,
+			parties : parties,
+			getTeam : function () {
+				return this.team;
+			},
+			getParties : function () {
+				return this.parties;
+			}
+		};
 	};
 
 	var initialize = function () {

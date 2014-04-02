@@ -4,11 +4,11 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'controllers/partyapi'
-], function($, _, Backbone, PartyAPI){
+	'controllers/partyrouter'
+], function($, _, Backbone, PartyRouter){
 
 	var initialize = function(){
-		PartyAPI.initialize();
+		var partyRouter = new PartyRouter;
 	};
 
 	return {

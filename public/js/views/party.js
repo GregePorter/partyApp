@@ -5,7 +5,7 @@ define([
     'Templates',
     'timepicker'
 ], function($, _, Backbone, Templates, timepicker){
-    var PersonView = Backbone.View.extend({
+    var PartyView = Backbone.View.extend({
         tagName: 'ul', //this.el is a list element
         className: 'thumbnail', //add this classname to the list element   
         //the model's attributes are backed up as an attribute called realModel
