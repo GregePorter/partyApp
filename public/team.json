@@ -48,7 +48,7 @@
     ],
     "parties": [
         {
-            "party_id": 1,
+            "id": 1,
             "person_id": 1,
             "party_theme": "new apt move-in party",
             "party_date": "4/22/2014",
@@ -56,7 +56,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 2,
+            "id": 2,
             "person_id": 1,
             "party_theme": "new apt move-in party",
             "party_date": "5/12/2015",
@@ -64,7 +64,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 3,
+            "id": 3,
             "person_id": 3,
             "party_theme": "new apt move-in party",
             "party_date": "7/15/2014",
@@ -72,7 +72,7 @@
             "party_where": "Al's \"crib\""
         },
         {
-            "party_id": 4,
+            "id": 4,
             "person_id": 4,
             "party_theme": "new apt move-in party",
             "party_date": "6/3/2017",
@@ -80,7 +80,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 5,
+            "id": 5,
             "person_id": 5,
             "party_theme": "new apt move-in party",
             "party_date": "8/7/2018",
@@ -88,7 +88,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 6,
+            "id": 6,
             "person_id": 6,
             "party_theme": "new apt move-in party",
             "party_date": "4/30/2014",
@@ -96,7 +96,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 7,
+            "id": 7,
             "person_id": 7,
             "party_theme": "new apt move-in party",
             "party_date": "5/13/2014",
@@ -104,7 +104,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 8,
+            "id": 8,
             "person_id": 1,
             "party_theme": "new apt move-in party",
             "party_date": "5/13/2014",
@@ -112,7 +112,7 @@
             "party_where": "802 S. 14th st."
         },
         {
-            "party_id": 9,
+            "id": 9,
             "person_id": 9,
             "party_theme": "new apt move-in party",
             "party_date": "10/22/2014",

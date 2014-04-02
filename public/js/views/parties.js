@@ -4,34 +4,35 @@ define([
     'jqueryui',
     'underscore',
     'backbone',
-    'collections/team',
-    'views/person'
-], function($, jqGrid, jqueryUI, _, Backbone, Team, PersonView){
+    'collections/parties',
+    'views/party'
+], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView){
 
-    var TeamView = Backbone.View.extend({
-        el: $("#teamGrid"),
+    var PartiesView = Backbone.View.extend({
+        el: $("#partiesGrid"),
         
         //tagName: 'table', //tagName ???
         //id: 'grid',
         
         initialize: function(){
-            console.log("TeamView init");
-            this.render();
+            console.log("PartiesView init");
+            //this.listenTo(this.model, 'change',  this.render);
+            //this.render();
         },
         render: function() {
 
             $(this.el).jqGrid({
                 data : this.collection.toJSON(), //populate grid at once 
                 datatype: 'local',
-                colNames:  [ 'id', 'Name', 'Age', 'Birthday', 'Parties'],
+                colNames:  [ 'id', 'Theme', 'Date', 'At', 'Where'],
                 colModel : [
                             {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
-                            {name : 'name', index : 'name', resizeable : true},
-                            {name : 'age', index : 'age', resizeable : true},
-                            {name : 'bdate', index : 'bdate', resizeable : true},
-                            {name : 'parties', index : 'parties', resizeable : true}
+                            {name : 'party_theme', index : 'party_theme', resizeable : true},
+                            {name : 'party_date', index : 'party_date', resizeable : true},
+                            {name : 'party_time', index : 'party_time', resizeable : true},
+                            {name : 'party_where', index : 'party_where', resizeable : true}
                 ],
-                sortname: 'name',
+                sortname: 'party_date',
                 sortorder: "asc",
                 caption : "Party App",
                 height : "auto"
@@ -47,24 +48,22 @@ define([
         },
         events: {
             //jqGrid event "jqGridSelectRow" => callback returns rowid
-            //show detailed personView  
+            //show detailed partyView  
             "jqGridSelectRow" : "showRowDetail"
         },
         showRowDetail: function(e, rowid, eventOriginal){
+            
             console.log("rowid: " + rowid);
 
-            //trigger createParties to listenTo and create Parties grid
-            this.trigger("createParties", rowid);
-            
             console.log(this.collection.get(rowid));
-            var aPerson = this.collection.get(rowid);
+            var aParty = this.collection.get(rowid);
 
-            var personView = new PersonView({model: aPerson}); 
+            var partyView = new PartyView({model: aParty}); 
             
-            $('#personDetails').html(personView.render().el);
+            $('#partyDetails').html(partyView.render().el);
         }
 
     });
 
-    return TeamView;
+    return PartiesView;
 });

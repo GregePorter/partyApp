@@ -5,7 +5,7 @@ define([
     'moment',
 ], function($, _, Backbone, Moment){
     var Party = Backbone.Model.extend({
-
+        
         defaults: {
 
             party_theme: "",
@@ -16,7 +16,7 @@ define([
         },
         initialize : function () {
 
-        }
+        },
         //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
             console.log("model.validate called!");

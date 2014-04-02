@@ -6,8 +6,8 @@ define([
     'jqueryui',
     'timepicker'
 ], function($, _, Backbone, Templates){ //TODO: ????? jqueryUI for datepicker
-    var PersonView = Backbone.View.extend({
-        template: Templates.templatePerson, //Handlebars.compile($('#options-template').html()), //template compiler
+    var PartyView = Backbone.View.extend({
+        template: Templates.templateParty, //Handlebars.compile($('#options-template').html()), //template compiler
         initialize: function(){
 
             //clone the model upfront and change the reference to the original realModel
@@ -16,7 +16,7 @@ define([
             this.realModel = this.model;
             this.model = this.realModel.clone();
 
-            //re-render PersonView on any "change" on the Person model 
+            //re-render PartyView on any "change" on the Party model 
             //this.listenTo(this.model, 'change',  this.render);
 
             //listenTo 'invalid' or 'error' events triggered on this.model
@@ -25,7 +25,7 @@ define([
 
         },     
         render: function() {
-            //console.log("PersonView rendered");
+            //console.log("PartyView rendered");
             //pass the Month model and compile this.template and put generated HTML in this.el 
             $(this.el).html(this.template(this.model.toJSON()));
 
@@ -38,7 +38,7 @@ define([
         events: {
             "click .type": "switchTemplate",
             "change":  "setClonedModel",
-            "click .save":  "savePerson", 
+            "click .save":  "saveParty", 
             "click .cancel": "cancelChanges" 
         },
         //switches this.template based on radio selection
@@ -83,12 +83,12 @@ define([
         },
         //update jqGrid's row representing this model
         updateRow: function(){
-            $("#teamGrid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
+            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
         },
         //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
-        savePerson: function(e){
+        saveParty: function(e){
             e.preventDefault();  // preventing default submission..
-            console.log("Saving person..");
+            console.log("Saving Party..");
             //if(this.model.isValid()){this.model.save();}
             //since we don't have a backend we're faking save with setting the original realModel
             this.realModel.set(this.model.attributes);
@@ -96,14 +96,14 @@ define([
             //Apply changes on grid
             this.updateRow(); 
 
-            //empty the personView 
+            //empty the PartyView 
             this.$el.empty();    
         },
         //Do nothing on model and clear the current view $el
         cancelChanges: function(e){
             e.preventDefault();  // preventing default submission..
 
-            //empty the personView 
+            //empty the PartyView 
             this.$el.empty();
 
         },
@@ -123,5 +123,5 @@ define([
 
     });
     
-    return  PersonView;
+    return  PartyView;
 });

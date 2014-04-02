@@ -4,14 +4,14 @@ define([
 	'backbone',
     'text!templates/options.html',
     'text!templates/party.html',
-    'text!templates/birthday.html',
+    'text!templates/person.html',
     'handlebars'
-], function($, _, Backbone, options_template, party_template, birthday_template, Handlebars){
+], function($, _, Backbone, options_template, party_template, person_template, Handlebars){
 
 	// Define template engine dependency and require each template
 	var _templateOptions = options_template
 	  , _templateParty = party_template
-	  , _templateBirthday = birthday_template;
+	  , _templatePerson = person_template;
 
 	// Given a template and an optional arguments object, returns the 
 	// compiled template, or, if a context is passed, invokes the compiled 
@@ -33,9 +33,9 @@ define([
 			return _compiled(_templateParty, arguments[0]);
 			//return _templateParty;
 		},
-		templateBirthday: function() {
-			return _compiled(_templateBirthday, arguments[0]);
-			//return _templateBirthday;
+		templatePerson: function() {
+			return _compiled(_templatePerson, arguments[0]);
+			//return _templatePerson;
 		}
 	};
 });

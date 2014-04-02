@@ -7,7 +7,7 @@ define([
     //Collection of Months of a year
     var Team = Backbone.Collection.extend({
         
-        model: Person,
+        model: Party,
         
         initialize: function(models, options){
             console.log('Parties collection init');

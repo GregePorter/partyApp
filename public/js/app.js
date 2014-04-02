@@ -7,13 +7,19 @@ define([
 	'underscore',
 	'backbone',
 	'collections/team',
+	'collections/parties',
 	'views/team',
+	'views/parties'
 	//'module name'  --ex) 'router' for router.js
-], function($, jqGrid, jqueryUI, _, Backbone, Team, TeamView){
+], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, TeamView, PartiesView){
 
 	var initialize = function () {
+
 	    var myTeam = new Team(); //collection
 	    var teamView; // collection-view
+
+	    var myParties = new Parties();
+	    var partiesView;
 
 	    //ajax call on the collection
 	    $.ajax({
@@ -24,6 +30,7 @@ define([
 	            console.log("fetch success");
 	            
 	            myTeam.reset(data['team']);
+	            myParties.reset(data['parties']);
 
 
 	            //TODO: this should already be in team.json //we already have model.set.age on model-change
@@ -33,7 +40,8 @@ define([
 	                
 	            });	            
 
-	            teamView = new TeamView({collection: myTeam}); //renders on initialize()
+	            teamView = new TeamView({collection: myTeam}); //renders on initialize() and gets applied into this.el
+	            partiesView = new PartiesView({collection: myParties}); //listenTo "createParties" event on teamView and render()
 
 	        },
 
