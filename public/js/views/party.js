@@ -30,7 +30,8 @@ define([
         events: {
             "change .form-control" :  "formChange",
             "click .save":  "saveParty",
-            "click .cancel" : "cancel"
+            "click .cancel" : "cancel",
+            "click .add" : "addParty"
         },
         cancel : function (e) {
             this.render();
@@ -45,6 +46,10 @@ define([
             this.realModel.set(this.model.attributes);
             e.preventDefault();  // preventing default submission..
             this.render();
+        },
+        addParty : function(e) {
+            e.preventDefault();  // preventing default submission..
+            this.trigger("addParty", this.model.attributes);
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????

@@ -12,108 +12,28 @@ define([
 	'views/team'
 ], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, PartiesView, TeamView){
 	var PartyRouter = Backbone.Router.extend({
-		routerTeam : {},
-		routerParties : {},
-		initialize : function () {
-			var team = new Team;
-			var parties = new Parties;
+		team : {},
+		teamView : {},
+		parties : {},
+		partiesView : {},
+		initialize : function(teamCol, partiesCol) {
+			this.team = new Team(teamCol[0]);
+			this.parties = new Parties(partiesCol[0]);
+			this.teamView = new TeamView({collection : this.team});
 
-			var test = $.when(
-				team.fetch({
-					success: function(coll, response, options){
-			            console.log("team fetch success");
-			        },
-					error: function(coll, response, options){
-						console.log("fetch error");
-			            console.log(response);
-			            var errors = [];
-			            if(response.readyState !== 4){
-			                 errors.push({message: 'The xhr request could not be completed!'});
-			            }
-			            if(response.status === 404){
-			                errors.push({message: 'Requested page not found. [404]'});
-			            } 
-			            if(response.status === 500){
-			                errors.push({message: 'Internal Server Error. [500]'});
-			            } 
-			            if((response.responseText !== "") && (coll.models.length === 0) ){
-			                errors.push({message: "Malformed JSON", responseText: response.responseText});
-			            }
-			            if(errors.length){
-			                _.each(errors, function(err, i){
-			                    
-			                    if(err.responseText){
-
-			                        console.log(err.responseText);
-
-			                        try{
-			                            JSON.parse(err.responseText);
-			                        }catch(e){
-			                            err.message += ": " + e.name;
-			                            err.message += " => " + e.message;
-			                            console.log(e.name);
-			                            console.log(e.message);
-			                        }
-			                    } 
-
-			                    alert(err.message);
-
-			                });
-			            }
-					}	
-				}),
-				parties.fetch({
-					success: function(coll, response, options){
-		            console.log(" parties fetch success");
-			        },
-					error: function(coll, response, options){
-						console.log("fetch error");
-			            console.log(response);
-			            var errors = [];
-			            if(response.readyState !== 4){
-			                 errors.push({message: 'The xhr request could not be completed!'});
-			            }
-			            if(response.status === 404){
-			                errors.push({message: 'Requested page not found. [404]'});
-			            } 
-			            if(response.status === 500){
-			                errors.push({message: 'Internal Server Error. [500]'});
-			            } 
-			            if((response.responseText !== "") && (coll.models.length === 0) ){
-			                errors.push({message: "Malformed JSON", responseText: response.responseText});
-			            }
-			            if(errors.length){
-			                _.each(errors, function(err, i){
-			                    
-			                    if(err.responseText){
-
-			                        console.log(err.responseText);
-
-			                        try{
-			                            JSON.parse(err.responseText);
-			                        }catch(e){
-			                            err.message += ": " + e.name;
-			                            err.message += " => " + e.message;
-			                            console.log(e.name);
-			                            console.log(e.message);
-			                        }
-			                    } 
-
-			                    alert(err.message);
-
-			                });
-			            }
-					}
-				})).done(function(team, parties){
-					var teamCol = new Team(team[0]);
-					var partiesCol = new Parties(parties[0]);
-
-					var teamView = new TeamView({collection : teamCol});
-					var partyView = new PartiesView({collection : partiesCol});
-				});
+			//this.partiesView = new PartiesView({collection : this.parties});
+			this.listenTo(this.teamView, "create", this.renderParties);
+			this.listenTo(this.parties, "addParty", this.updateNumParties);
 		},
-		test : function () {
-			console.log("This.team has changed");
+		updateNumParties : function (e) {
+			console.log("Adding Party");
+			console.log(e);
+		},
+		//Find the parties associated with the selected person and display them
+		renderParties : function(e) {
+			var personsParties = this.parties.where({person_id : parseInt(e)});
+			var tempCol = new Parties(personsParties);
+			var tempView = new PartiesView({collection : tempCol});
 		}
 	});
 

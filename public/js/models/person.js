@@ -26,7 +26,7 @@ define([
         //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
             var errors = [];
-            console.log("model.validate called!");
+            //console.log("model.validate called!");
 
             if (!moment().isAfter(attrs.bdate)){
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
@@ -34,7 +34,7 @@ define([
             return errors.length > 0 ? errors : false;                  
         },
         printEvent: function(eventName){
-            console.log("model event");
+            //console.log("model event");
             console.log(eventName);
         }
 

@@ -7,7 +7,7 @@ define([
     var Team = Backbone.Collection.extend({
         model: Person,
         initialize: function(models, options){
-            console.log('Team collection init');
+            //console.log('Team collection init');
             //this.parties = read in party data and make a new Parties collection
         },
         
@@ -17,7 +17,7 @@ define([
             return '/malformedData/team.json';
         },*/
         parse: function(data, xhr) {  // this is fired upon fetch() 
-            console.log('Team Collection parse');
+            //console.log('Team Collection parse');
             return data;
         }
     });

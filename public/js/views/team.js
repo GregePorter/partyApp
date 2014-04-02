@@ -10,12 +10,13 @@ define([
     var TeamView = Backbone.View.extend({
         el : $("#grid"),
         initialize: function(){
-            console.log("TeamView init");
+            //console.log("TeamView init");
             _.bindAll(this, "showRowDetail", "updateRow", "render");
             this.collection.on("change", this.updateRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
             this.render();
         },
         render : function () {
+            $(this.el).html();
             $(this.el).jqGrid({
                 data : this.collection.toJSON(),
                 datatype : 'local',
@@ -37,8 +38,9 @@ define([
             "jqGridSelectRow" : "showRowDetail"
         },
         //When a row is clicked, render person for the model described by that row
+        //It triggers a 'change' event so the router can create the appropriate PartiesView for this person
         showRowDetail: function(e, rowid, eventOriginal){
-            debugger;
+            this.trigger("create",rowid);
             var aPerson = this.collection.get(rowid);
             var personView = new PersonView({model: aPerson}); 
             $('#person_details').html(personView.render().el);

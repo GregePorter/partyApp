@@ -7,7 +7,7 @@ define([
     var Party = Backbone.Model.extend({
 
         defaults: {
-            party_id : null,
+            id : null,
             person_id : "",
             party_theme : "",
             party_date: "", //String
@@ -17,7 +17,7 @@ define([
         },
         //validate => triggers "invalid" and sets validationError with the message 
         validate: function(attrs, options){
-            console.log("model.validate called!");
+            //console.log("model.validate called!");
 
             var errors = [];
             if (!attrs.party_theme) {
@@ -35,7 +35,7 @@ define([
             return errors.length > 0 ? errors : false;                  
         },
         printEvent: function(eventName){
-            console.log("model event");
+            //console.log("model event");
             console.log(eventName);
         }
 
