@@ -10,20 +10,16 @@ define([
             name: "", //String
             age: null, //Number parsed from bdate field and calculated
             bdate: "", //String from jq DatePicker
-            party_pid : null,
             party_theme : "",
-            party_date: "", //String
+            party_date: "", //String (M)M/(D)D/YYYY
             party_time: "", //String HH:MM
             party_where: "" //String
         },
         initialize : function () {
-            _.bindAll(this, 'updateAge');
-            var now = moment();
-            this.set({age : now.diff(this.get('bdate'), 'years')});
-            this.on('change:bdate', this.updateAge);
+            _.bindAll(this, 'updateAge')
+            this.on('change:bdate', this.updateAge); 
+            //model validstions 
         },
-
-        //updates this.model's Age based on the Birthday with respect to the current time (according to MomentJS)
         updateAge : function () {
             var now = moment();
             this.set({age : now.diff(this.get('bdate'), 'years')});
@@ -49,11 +45,8 @@ define([
                 errors.push({name: 'bdate', message: 'Enter a correct birthdate.'});
             }
             return errors.length > 0 ? errors : false;                  
-        },
-        printEvent: function(eventName){
-            console.log("model event");
-            console.log(eventName);
         }
+ 
 
     });
 

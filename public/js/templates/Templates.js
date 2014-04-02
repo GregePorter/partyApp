@@ -27,12 +27,15 @@ define([
 	return {
 		templateOptions: function() {
 			return _compiled(_templateOptions, arguments[0]);
+			//return _templateOptions;
 		},
 		templateParty: function() {
 			return _compiled(_templateParty, arguments[0]);
+			//return _templateParty;
 		},
 		templateBirthday: function() {
 			return _compiled(_templateBirthday, arguments[0]);
+			//return _templateBirthday;
 		}
 	};
 });

@@ -2,76 +2,122 @@ define([
     'jquery',
     'underscore',
     'backbone',
-    'Templates',
+    'Templates', //returns compiled Handlebars templates
+    'jqueryui',
     'timepicker'
-], function($, _, Backbone, Templates, timepicker){
+], function($, _, Backbone, Templates){ //TODO: ????? jqueryUI for datepicker
     var PersonView = Backbone.View.extend({
-        tagName: 'ul', //this.el is a list element
-        className: 'thumbnail', //add this classname to the list element   
-        //the model's attributes are backed up as an attribute called realModel
-        //this view will now interact with a clone of the models attributes
-        //if we save the changes then they will be applied,
-        //otherwise we will discard the changes and revert the model to it's original values
+        template: Templates.templateOptions, //Handlebars.compile($('#options-template').html()), //template compiler
         initialize: function(){
-            this.realModel = this.model;        
+
+            //clone the model upfront and change the reference to the original realModel
+            //changes are happening on a cloned this.model
+            //the original realModel gets changed on 'click .save' only
+            this.realModel = this.model;
             this.model = this.realModel.clone();
-            this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors
-            this.listenTo(this.model, 'error',  this.printError); // all other errors
+
+            //re-render PersonView on any "change" on the Person model 
+            //this.listenTo(this.model, 'change',  this.render);
+
+            //listenTo 'invalid' or 'error' events triggered on this.model
+            this.listenTo(this.model, 'invalid',  this.printInvalid); //print invalid errors on 'invalid'
+            this.listenTo(this.model, 'error',  this.printError); // all other errors on 'error'
+
+        },     
+        render: function() {
+            //console.log("PersonView rendered");
+            //pass the Month model and compile this.template and put generated HTML in this.el 
+            $(this.el).html(this.template(this.model.toJSON()));
+
+            //initialize datepicker() and timepicker() 
+            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
+            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            
+            return this;//return context to enable chained calls 
         },
-        
-        //this single view has three different templates. The options template is the basic, radio button template.
-        //Depending on which radio button the user clicks, a different template is applied and rendered.
-        render: function(e) {
-            if (e === "") {
-                $(this.el).html(Templates.templateOptions()); 
-            } else {
+        events: {
+            "click .type": "switchTemplate",
+            "change":  "setClonedModel",
+            "click .save":  "savePerson", 
+            "click .cancel": "cancelChanges" 
+        },
+        //switches this.template based on radio selection
+        //?? effects model => action: party ??
+        switchTemplate : function (e) {
+            console.log(e);
+
+            //var templateName = "#" + e.target.id + "-template";
+            //this.template = Handlebars.compile($(templateName).html());
+
                 switch (e.target.value) {
                     case "party" :
-                        $(this.el).html(Templates.templateParty(this.model.toJSON()));
-                        $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
-                        debugger;
-                        $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+                        this.template = Templates.templateParty;
                         break;
                     case "birthday" :
-                        $(this.el).html(Templates.templateBirthday(this.model.toJSON()));
-                        $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
+                        this.template = Templates.templateBirthday;
                         break;
                     default :
-                        $(this.el).html(Templates.templateOptions()); 
+                        this.template = Templates.templateOptions; 
                 }
-            }
-            return this;
+
+            this.render();
         },
-        
-        events: {
-            "click .type" : "render",
-            "change .form-control" :  "formChange",
-            "click .save":  "savePerson",
-            "click .cancel" : "cancel"
+        //set cloned model on every field change on this view
+        setClonedModel : function (event) {
+            console.log("update triggered");
+            
+            //reset invalid messages and css classes
+            this.$el.find(".form-group").removeClass("has-error");
+            this.$el.find("span.help-block").text("");
+
+            //Apply the change in the text-field to the cloned model
+            var target = event.target;
+            var change = {};
+            change[target.name] = target.value;
+
+            //By default model's validate method is called before save, but can also be called before set if {validate:true}
+            //this._clonedModel.set(target.name , target.value, {validate:true});
+            this.model.set(target.name , target.value, {validate:true});
+            //this.updateRow();
+           
         },
-        cancel : function (e) {
-            this.render("");
-            e.preventDefault();  // preventing default submission..
+        //update jqGrid's row representing this model
+        updateRow: function(){
+            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
         },
-        //when the form is changed the clonedModel is updated with validation and silently so as to avoid causing an update to the Grid
-        formChange : function (e) {
-            this.model.set(e.target.name , e.target.value, {validate:true}, {silent : true});
-        },
-        //When the user clicks the save button, the model is updated which triggers the collection to update the corresponding row.
+        //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
         savePerson: function(e){
-            this.realModel.set(this.model.attributes);
-            this.render("");
             e.preventDefault();  // preventing default submission..
+            console.log("Saving person..");
+            //if(this.model.isValid()){this.model.save();}
+            //since we don't have a backend we're faking save with setting the original realModel
+            this.realModel.set(this.model.attributes);
+            
+            //Apply changes on grid
+            this.updateRow(); 
+
+            //empty the personView 
+            this.$el.empty();    
+        },
+        //Do nothing on model and clear the current view $el
+        cancelChanges: function(e){
+            e.preventDefault();  // preventing default submission..
+
+            //empty the personView 
+            this.$el.empty();
+
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????
         },
         printInvalid: function(model, errors){
             var self = this;
-            console.log(this.$el);
             _.each(errors, function(err, i){
+                //TODO: overwite error messages for this specific view ???
+
                 self.$el.find("input[name='" + err.name + "']").parents(".form-group").addClass("has-error");
                 self.$el.find("input[name='" + err.name + "']").next().text(err.message);
+                //alert(err.message); 
             });
         }
 

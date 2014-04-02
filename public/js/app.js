@@ -4,7 +4,7 @@ define([
 	'jquery',
 	'underscore',
 	'backbone',
-	'views/partyapp'
+	'views/partyapp'//TODO: move this from view
 ], function($, _, Backbone, PartyApp){
 
 	var initialize = function(){

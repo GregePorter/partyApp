@@ -10,12 +10,13 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="css/trontastic/jquery-ui-1.10.4.custom.css">
     <link rel="stylesheet" type="text/css" href="css/jquery.timepicker.css">
-    <link rel="stylesheet" type="text/css" href="css/jquery-ui-min.css">
     <style>
         body {
             padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         }
-
+        #bcontent {
+            padding-top: 40px; 
+        }
     </style> 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries-->
     <!-- if lt IE 9
@@ -53,10 +54,17 @@
  
     </div>
     <div  class="container">
-        <p id="timing">&nbsp;</p>
-        <div id="app" class="row">
-            <table id="grid"></table>
-            <div id="person_details"></div>
+        
+        <div id="bcontent" class="row">
+            <div class="row">
+                <div class="col-md-6">
+                    <table id="grid"></table>
+                </div>
+                <div class="col-md-6">
+                    <div id="detailArea"></div>
+                </div>
+            </div>
+            
         </div><!-- /row -->
  
         
@@ -72,6 +80,5 @@
 ================================================== -->
 <!-- Placed at the end of the document so the pages load faster -->
 <script data-main="js/main" src="js/libs/require/require.js"></script>
-
 </body>
 </html>
