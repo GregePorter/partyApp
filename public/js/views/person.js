@@ -30,8 +30,7 @@ define([
             $(this.el).html(this.template(this.model.toJSON()));
 
             //initialize datepicker() and timepicker() 
-            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
-            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            this.$el.find("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
             
             return this;//return context to enable chained calls 
         },

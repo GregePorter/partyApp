@@ -5,8 +5,9 @@ define([
     'underscore',
     'backbone',
     'collections/parties',
-    'views/party'
-], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView){
+    'views/party',
+    'models/party'
+], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView, Party){
 
     var PartiesView = Backbone.View.extend({
         el: $("#partiesGrid"),
@@ -14,15 +15,26 @@ define([
         //tagName: 'table', //tagName ???
         //id: 'grid',
         
-        initialize: function(){
+        initialize: function(options){
             console.log("PartiesView init");
+            //options.evt.bind("createParties", this.render, this);
+            this.listenTo(options.evt, 'createParties',  this.render);//passes the selected row's model to render()
             //this.listenTo(this.model, 'change',  this.render);
             //this.render();
+            //$(this.el).empty();
         },
-        render: function() {
+        render: function(person) {
+            
+            $(this.el).empty();
 
+            console.log("parties of " + person.get("id"));
+            //debugger;
+            console.log(this.collection.where({person_id : person.get("id")}));
+            var result_arr = this.collection.where({person_id : person.get("id")});
+            var result_JSON = _.map( result_arr, function( model ){ return model.toJSON(); } );
+            
             $(this.el).jqGrid({
-                data : this.collection.toJSON(), //populate grid at once 
+                //data : result_JSON, //populate grid at once 
                 datatype: 'local',
                 colNames:  [ 'id', 'Theme', 'Date', 'At', 'Where'],
                 colModel : [
@@ -38,11 +50,19 @@ define([
                 height : "auto"
             });
 
-            //Below code can be used to add rows individually if reqs change
-            /*this.collection.each(function(model){
-                $("#grid").jqGrid('addRowData', model.get('id'), model.toJSON()); 
-                //this.$el.addRowData(model.get("id"), model.toJSON()); ???
-            }); */
+            //$("#partiesGrid").jqGrid("clearGridData", true).trigger("reloadGrid");
+            
+            
+            if(result_arr.length > 0){
+                //Below code can be used to add rows individually if reqs change
+                result_arr.forEach(function(model){
+                //this.collection.each(function(model){
+                    $("#partiesGrid").jqGrid('addRowData', model.get('id'), model.toJSON()); 
+                    //$(this.el).jqGrid('addRowData', model.get('id'), model.toJSON()); //???
+                }); 
+            }else{
+                $(this.el).html(person.get("name") + " hasn't added a party yet!");
+            }
 
             return this; //enable chaining
         },
@@ -61,6 +81,24 @@ define([
             var partyView = new PartyView({model: aParty}); 
             
             $('#partyDetails').html(partyView.render().el);
+
+            //listenTo "addParty" event on partyView and add a Party Model to this.collection
+            //and update the grid
+            this.listenTo(partyView, "addParty", function(m) {
+            //partyView.on("addParty", function(m) {
+                console.log("addParty captured");
+                
+                var tempParty = new Party(m);
+                tempParty.set({id : this.collection.size()+1});
+                console.log(tempParty);
+
+                this.collection.add(tempParty);
+                console.log(this.collection);
+
+                //$(this.el).jqGrid("addRowData", tempParty.get('id'), tempParty.toJSON());
+                $("#partiesGrid").jqGrid('addRowData', tempParty.get('id'), tempParty.toJSON()); 
+            });
+
         }
 
     });

@@ -38,10 +38,19 @@ define([
 
 	            	person.set({age : now.diff(person.get('bdate'), 'years')});
 	                
-	            });	            
+	            });	     
 
-	            teamView = new TeamView({collection: myTeam}); //renders on initialize() and gets applied into this.el
-	            partiesView = new PartiesView({collection: myParties}); //listenTo "createParties" event on teamView and render()
+	            //Define an Event Aggregator 
+	            //for communicating two vviews each other 
+	            var evt = _.extend({}, Backbone.Events);       
+	            //Pass "evt" event aggregator obj along with the collection in the views
+
+	            //render teamView and take "options.evt" on initialize()
+	            //trigger "createParties" event on "evt" 
+	            teamView = new TeamView({collection: myTeam, evt: evt}); 
+
+	            //via "options.evt" listenTo "createParties" event on teamView and re-render()
+	            partiesView = new PartiesView({collection: myParties, evt: evt}); 
 
 	        },
 

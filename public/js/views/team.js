@@ -14,8 +14,12 @@ define([
         //tagName: 'table', //tagName ???
         //id: 'grid',
         
-        initialize: function(){
+        initialize: function(options){
             console.log("TeamView init");
+            
+            //take the "evt" event aggregator obj from options 
+            this.evt = options.evt;
+            
             this.render();
         },
         render: function() {
@@ -53,11 +57,11 @@ define([
         showRowDetail: function(e, rowid, eventOriginal){
             console.log("rowid: " + rowid);
 
-            //trigger createParties to listenTo and create Parties grid
-            this.trigger("createParties", rowid);
-            
             console.log(this.collection.get(rowid));
             var aPerson = this.collection.get(rowid);
+
+            //trigger "createParties" on "evt" obj
+            this.evt.trigger("createParties", aPerson);
 
             var personView = new PersonView({model: aPerson}); 
             

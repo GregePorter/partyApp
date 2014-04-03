@@ -30,8 +30,8 @@ define([
             $(this.el).html(this.template(this.model.toJSON()));
 
             //initialize datepicker() and timepicker() 
-            $("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
-            $("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            this.$el.find("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
+            this.$el.find("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
             
             return this;//return context to enable chained calls 
         },
@@ -39,7 +39,8 @@ define([
             "click .type": "switchTemplate",
             "change":  "setClonedModel",
             "click .save":  "saveParty", 
-            "click .cancel": "cancelChanges" 
+            "click .cancel": "cancelChanges",
+            "click .add": "addParty" 
         },
         //switches this.template based on radio selection
         //?? effects model => action: party ??
@@ -83,7 +84,16 @@ define([
         },
         //update jqGrid's row representing this model
         updateRow: function(){
-            $("#grid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
+            $("#partiesGrid").jqGrid('setRowData', this.model.get('id'), this.model.toJSON());
+        },
+        addParty: function(e){
+            e.preventDefault();
+
+            //trigger "addParty" event to capture in partiesView and pass the edited model attributes
+            //this.model is the cloned one not realModel
+            this.trigger("addParty", this.model.attributes);
+
+
         },
         //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
         saveParty: function(e){
