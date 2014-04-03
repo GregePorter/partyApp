@@ -2,7 +2,7 @@
     {
         "id" : 1,
         "person_id": 1,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 1",
         "party_date": "4/22/2014",
         "party_time": "8:00 pm",
         "party_where": "802 S. 14th st."
@@ -10,7 +10,7 @@
     {
         "id": 2,
         "person_id" : 1,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 2",
         "party_date": "5/12/2015",
         "party_time": "8:30 pm",
         "party_where": "802 S. 14th st."
@@ -18,7 +18,7 @@
     {
         "id": 3,
         "person_id" : 3,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 3",
         "party_date": "7/15/2014",
         "party_time": "21:00 pm",
         "party_where": "Al's \"crib\""
@@ -26,7 +26,7 @@
     {
         "id": 4,
         "person_id" : 4,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 4",
         "party_date": "6/3/2017",
         "party_time": "8:00 pm",
         "party_where": "802 S. 14th st."
@@ -34,7 +34,7 @@
     {
         "id": 5,
         "person_id" : 5,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 5",
         "party_date": "8/7/2018",
         "party_time": "8:45 pm",
         "party_where": "802 S. 14th st."
@@ -42,7 +42,7 @@
     {
         "id": 6,
         "person_id" : 6,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 6",
         "party_date": "4/30/2014",
         "party_time": "8:00 pm",
         "party_where": "802 S. 14th st."
@@ -50,7 +50,7 @@
     {
         "id": 7,
         "person_id" : 7,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 7",
         "party_date": "5/13/2014",
         "party_time": "7:30 pm",
         "party_where": "802 S. 14th st."
@@ -58,7 +58,7 @@
     {
         "id": 8,
         "person_id" : 1,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 8",
         "party_date": "5/13/2014",
         "party_time": "7:30 pm",
         "party_where": "802 S. 14th st."
@@ -66,7 +66,7 @@
     {
         "id": 9,
         "person_id" : 9,
-        "party_theme": "new apt move-in party",
+        "party_theme": "Party 9",
         "party_date": "10/22/2014",
         "party_time": "8:00 pm",
         "party_where": "802 S. 14th st."

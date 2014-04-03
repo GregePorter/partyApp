@@ -7,11 +7,12 @@ define([
     var Party = Backbone.Model.extend({
 
         defaults: {
-            id : null,
-            person_id : "",
-            party_theme : "",
-            party_date: "", //String
-            party_time: "" //String HH:MM
+            id : "",
+            person_id: "",
+            party_theme: "New Party",
+            party_date: "",
+            party_time: "",
+            party_where: ""
         },
         initialize : function () {
         },

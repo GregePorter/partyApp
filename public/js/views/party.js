@@ -25,6 +25,10 @@ define([
             $(this.el).html(Templates.templateParty(this.model.toJSON()));
             this.$("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
             this.$("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            if (this.model.has('newParty')) {
+                this.$(".save").remove();
+                this.model.unset('newParty', {"silent" : true});
+            }
             return this;
         },
         events: {
@@ -34,7 +38,7 @@ define([
             "click .add" : "addParty"
         },
         cancel : function (e) {
-            this.render();
+            this.remove();
             e.preventDefault();  // preventing default submission..
         },
         //when the form is changed the clonedModel is updated with validation and silently so as to avoid causing an update to the Grid
@@ -45,11 +49,12 @@ define([
         saveParty: function(e){
             this.realModel.set(this.model.attributes);
             e.preventDefault();  // preventing default submission..
-            this.render();
+            this.remove();
         },
         addParty : function(e) {
             e.preventDefault();  // preventing default submission..
             this.trigger("addParty", this.model.attributes);
+            this.remove();
         },
         printError: function(model, errors){
             console.log("error on model"); //TODO: how to handle?????

@@ -9,31 +9,55 @@ define([
 	'collections/team',
 	'collections/parties',
 	'views/parties',
-	'views/team'
-], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, PartiesView, TeamView){
+	'views/team',
+	'models/party'
+], function($, jqGrid, jqueryUI, _, Backbone, Team, Parties, PartiesView, TeamView, Party){
 	var PartyRouter = Backbone.Router.extend({
 		team : {},
 		teamView : {},
 		parties : {},
-		partiesView : {},
+		numParties : [],
+		partiesView : null,
 		initialize : function(teamCol, partiesCol) {
 			this.team = new Team(teamCol[0]);
 			this.parties = new Parties(partiesCol[0]);
 			this.teamView = new TeamView({collection : this.team});
-
-			//this.partiesView = new PartiesView({collection : this.parties});
 			this.listenTo(this.teamView, "create", this.renderParties);
-			this.listenTo(this.parties, "addParty", this.updateNumParties);
+			this.findNumParties();
 		},
-		updateNumParties : function (e) {
-			console.log("Adding Party");
-			console.log(e);
+		findNumParties : function(personid) {
+			if (personid) {
+				this.teamView.updateNumParty(personid, this.parties.where({person_id : personid}).length);
+			} else {
+				var that = this;
+				this.team.each(function (person) {
+					that.teamView.updateNumParty(person.get('id'), that.parties.where({person_id : person.get("id")}).length);
+				});
+			}
+		},
+		updateNumParties : function (p) {
+			var tempParty = new Party(p);
+			tempParty.set({id : this.parties.size()+1});
+			this.parties.add(tempParty);
+			this.findNumParties(tempParty.get('person_id'));
+			this.renderParties(tempParty.get('person_id'));
 		},
 		//Find the parties associated with the selected person and display them
-		renderParties : function(e) {
-			var personsParties = this.parties.where({person_id : parseInt(e)});
+		renderParties : function(rowid) {
+			if (this.partiesView !== null) {
+				this.partiesView.undelegateEvents();
+			}
+			
+			var personsParties = this.parties.where({person_id : parseInt(rowid)});
 			var tempCol = new Parties(personsParties);
-			var tempView = new PartiesView({collection : tempCol});
+
+			if (personsParties.length === 0) {
+				var newParty = new Party;
+				newParty.set({id : this.parties.size()+1, person_id : parseInt(rowid), newParty : true});
+				tempCol.add(newParty);
+			}
+			this.partiesView = new PartiesView({collection : tempCol});
+			this.listenTo(this.partiesView, "addParty", this.updateNumParties);
 		}
 	});
 

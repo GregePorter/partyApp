@@ -20,12 +20,13 @@ define([
             $(this.el).jqGrid({
                 data : this.collection.toJSON(),
                 datatype : 'local',
-                colNames :  [ 'id', 'Name', 'Age', 'Birthday'],
+                colNames :  [ 'id', 'Name', 'Age', 'Birthday', 'Number of Parties'],
                 colModel : [
                             {name : 'id', index : 'id', key : true, resizeable : true, hidden: true},
                             {name : 'name', index : 'name', resizeable : true},
                             {name : 'age', index : 'age', resizeable : true},
-                            {name : 'bdate', index : 'bdate', resizeable : true}
+                            {name : 'bdate', index : 'bdate', resizeable : true},
+                            {name : 'numParties', index : 'numParties', resizeable : true}
                 ],
                 sortname : 'bdate, name asc',
                 sortorder : "asc",
@@ -33,6 +34,9 @@ define([
                 height : "auto"
             });
             return this;
+        },
+        updateNumParty : function (person_id, numParty) {
+            this.collection.get(person_id).set({numParties : numParty});
         },
         events : {
             "jqGridSelectRow" : "showRowDetail"

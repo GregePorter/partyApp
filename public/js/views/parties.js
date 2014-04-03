@@ -11,12 +11,10 @@ define([
     var PartiesView = Backbone.View.extend({
         el : $("#party-grid"),
         initialize: function(){
-            //console.log("PartiesView init");
             _.bindAll(this, "showRowDetail", "updateRow", "render");
             this.collection.on("change", this.updateRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
-            this.render();
-        },
-        render : function () {
+            this.collection.on("add", this.addRow, this);     //binds model changes to this collection - the row corresponding to the changed model will be updated
+            
             $(this.el).jqGrid({
                 data : this.collection.toJSON(),
                 datatype : 'local',
@@ -32,31 +30,33 @@ define([
                 caption : "Party App",
                 height : "auto"
             });
-            return this;
+            this.render();
+        },
+        render : function () {
+            $(this.el).jqGrid('clearGridData');
+            $(this.el).jqGrid("setGridParam", {'data' : this.collection.toJSON()});
+            $(this.el).trigger("reloadGrid");
         },
         events : {
             "jqGridSelectRow" : "showRowDetail"
         },
         //When a row is clicked, render person for the model described by that row
-        showRowDetail: function(e, rowid, eventOriginal){
+        showRowDetail: function(e, rowid, eventOriginal) {
             e.preventDefault();
-            //this.trigger("change",rowid);
-            var aParty = this.collection.get(rowid);
+            var aParty = this.collection.findWhere({id : parseInt(rowid)});
             var partyView = new PartyView({model: aParty}); 
-            $('#person_details').html(partyView.render("").el);
+            $('#person_details').html(partyView.render().el);
 
-            this.listenTo(partyView, "addParty", function(e) {
-                var tempParty = new Party(e);
-                tempParty.set({id : this.collection.size()});
-                
-                this.collection.add(tempParty);
-
-                $(this.el).jqGrid("addRowData", tempParty.get('id'), tempParty.toJSON());
+            this.listenToOnce(partyView, "addParty", function(e) {
+                this.trigger("addParty", e);
             });
         },
+        addRow : function(e) {
+            $(this.el).jqGrid("addRowData", e.get("id"), e.toJSON());
+        },
         //updates the rows with any new values
-        updateRow : function(e){
-            $(this.el).jqGrid('setRowData', e.attributes.id, this.collection.get(e.attributes.id).toJSON());
+        updateRow : function(e) {
+            $(this.el).jqGrid('setRowData', e.get("id"), e.toJSON());
         }
     });
 
