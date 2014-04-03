@@ -19,7 +19,13 @@ define([
             
             //take the "evt" event aggregator obj from options 
             this.evt = options.evt;
-            
+            this.listenTo(this.collection, 'change',  function(m){
+                console.log("!!!!!!!!");
+                console.log(m);
+                console.log(this.collection);
+                //update the team grid row with the changed model in the collection (updates "parties" field)
+                 $(this.el).jqGrid('setRowData', m.get('id'), m.toJSON());
+            });
             this.render();
         },
         render: function() {

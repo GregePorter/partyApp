@@ -37,6 +37,8 @@ define([
 	            myTeam.each( function (person) {
 
 	            	person.set({age : now.diff(person.get('bdate'), 'years')});
+	            	person.set({parties: myParties.where({person_id : person.get("id")}).length });
+
 	                
 	            });	     
 
@@ -51,6 +53,17 @@ define([
 
 	            //via "options.evt" listenTo "createParties" event on teamView and re-render()
 	            partiesView = new PartiesView({collection: myParties, evt: evt}); 
+
+	            //listenTo "add" on myParties and update "parties" field of myTeam 
+	            myParties.on("add", function(model, coll){
+	            	console.log("add event on myParties collection!!");
+	            	//debugger;
+	            	var person = myTeam.get(model.get("person_id"));
+	            	var parties = person.get("parties");
+	 				parties++;
+	            	person.set("parties", parties);
+	            	console.log(person);
+	            });
 
 	        },
 

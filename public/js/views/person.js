@@ -30,7 +30,7 @@ define([
             $(this.el).html(this.template(this.model.toJSON()));
 
             //initialize datepicker() and timepicker() 
-            this.$el.find("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
+            this.$el.find("input[name='bdate']").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
             
             return this;//return context to enable chained calls 
         },
@@ -71,8 +71,6 @@ define([
 
             //Apply the change in the text-field to the cloned model
             var target = event.target;
-            var change = {};
-            change[target.name] = target.value;
 
             //By default model's validate method is called before save, but can also be called before set if {validate:true}
             //this._clonedModel.set(target.name , target.value, {validate:true});

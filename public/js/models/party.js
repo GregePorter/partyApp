@@ -8,10 +8,10 @@ define([
         
         defaults: {
 
-            party_theme: "",
-            party_date: "", //String (M)M/(D)D/YYYY
-            party_time: "", //String HH:MM
-            party_where: "" //String
+            party_theme: "Some theme",
+            party_date: "01/01/2015", //String (M)M/(D)D/YYYY
+            party_time: "07:30 PM", //String HH:MM
+            party_where: "TBD" //String
         
         },
         initialize : function () {
@@ -33,6 +33,9 @@ define([
             }
             if (moment().isAfter(attrs.party_date)){
                 errors.push({name: 'party_date', message: 'Cannot start earlier than today.'});
+            }
+            if (!attrs.party_where) {
+                errors.push({name: 'party_where', message: 'Please enter a location in the where field.'});
             }
 
             return errors.length > 0 ? errors : false;                  

@@ -30,39 +30,19 @@ define([
             $(this.el).html(this.template(this.model.toJSON()));
 
             //initialize datepicker() and timepicker() 
-            this.$el.find("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
-            this.$el.find("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+            this.$el.find("input[name='party_date']").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true, yearRange:"1940:2120"});
+            this.$el.find("input[name='party_time']").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
             
             return this;//return context to enable chained calls 
         },
         events: {
-            "click .type": "switchTemplate",
+
             "change":  "setClonedModel",
             "click .save":  "saveParty", 
             "click .cancel": "cancelChanges",
             "click .add": "addParty" 
         },
-        //switches this.template based on radio selection
-        //?? effects model => action: party ??
-        switchTemplate : function (e) {
-            console.log(e);
 
-            //var templateName = "#" + e.target.id + "-template";
-            //this.template = Handlebars.compile($(templateName).html());
-
-                switch (e.target.value) {
-                    case "party" :
-                        this.template = Templates.templateParty;
-                        break;
-                    case "birthday" :
-                        this.template = Templates.templateBirthday;
-                        break;
-                    default :
-                        this.template = Templates.templateOptions; 
-                }
-
-            this.render();
-        },
         //set cloned model on every field change on this view
         setClonedModel : function (event) {
             console.log("update triggered");
@@ -73,8 +53,6 @@ define([
 
             //Apply the change in the text-field to the cloned model
             var target = event.target;
-            var change = {};
-            change[target.name] = target.value;
 
             //By default model's validate method is called before save, but can also be called before set if {validate:true}
             //this._clonedModel.set(target.name , target.value, {validate:true});
@@ -93,7 +71,8 @@ define([
             //this.model is the cloned one not realModel
             this.trigger("addParty", this.model.attributes);
 
-
+            //empty the PartyView 
+            this.$el.empty();  
         },
         //faking save by triggering "change" and updating relevant row with jqGrid.setRowData()
         saveParty: function(e){

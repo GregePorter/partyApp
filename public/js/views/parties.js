@@ -8,7 +8,7 @@ define([
     'views/party',
     'models/party'
 ], function($, jqGrid, jqueryUI, _, Backbone, Parties, PartyView, Party){
-
+    //TODO: jQuery selector caching #partyDetails, #partiesGrid
     var PartiesView = Backbone.View.extend({
         el: $("#partiesGrid"),
         
@@ -17,21 +17,28 @@ define([
         
         initialize: function(options){
             console.log("PartiesView init");
-            //options.evt.bind("createParties", this.render, this);
+
             this.listenTo(options.evt, 'createParties',  this.render);//passes the selected row's model to render()
+
+           
             //this.listenTo(this.model, 'change',  this.render);
             //this.render();
-            //$(this.el).empty();
         },
         render: function(person) {
-            
-            $(this.el).empty();
+            //TODO: try this.$el = $(this.el).jqGrid()
+
+            //$(this.el).empty();
+            //clearGridData before re-rendering
+            $("#partiesGrid").jqGrid("clearGridData", true);//.trigger("reloadGrid");
+            //empty partyDetails also on partiesView re-render
+            $('#partyDetails').html("");
 
             console.log("parties of " + person.get("id"));
-            //debugger;
             console.log(this.collection.where({person_id : person.get("id")}));
+
+            //all parties of a person
             var result_arr = this.collection.where({person_id : person.get("id")});
-            var result_JSON = _.map( result_arr, function( model ){ return model.toJSON(); } );
+            //var result_JSON = _.map( result_arr, function( model ){ return model.toJSON(); } );
             
             $(this.el).jqGrid({
                 //data : result_JSON, //populate grid at once 
@@ -49,19 +56,48 @@ define([
                 caption : "Party App",
                 height : "auto"
             });
-
-            //$("#partiesGrid").jqGrid("clearGridData", true).trigger("reloadGrid");
-            
+           
             
             if(result_arr.length > 0){
                 //Below code can be used to add rows individually if reqs change
                 result_arr.forEach(function(model){
                 //this.collection.each(function(model){
+                    console.log(model.toJSON());
                     $("#partiesGrid").jqGrid('addRowData', model.get('id'), model.toJSON()); 
                     //$(this.el).jqGrid('addRowData', model.get('id'), model.toJSON()); //???
                 }); 
             }else{
-                $(this.el).html(person.get("name") + " hasn't added a party yet!");
+                console.log("handle person with no parties");
+                $("#partiesGrid").jqGrid("clearGridData", true); //.trigger("reloadGrid");
+                
+                var aParty = new Party();
+                var partyView = new PartyView({model: aParty}); 
+                $('#partyDetails').html(partyView.render().el);
+
+                this.listenTo(partyView, "addParty", function() {
+                //partyView.on("addParty", function(m) {
+                    console.log("addParty captured");
+                    
+                    var tempParty = new Party({
+                        id: this.collection.size()+1,
+                        person_id : person.get("id"),
+                        party_theme: partyView.$el.find("input[name='party_theme']").val(),
+                        party_date: partyView.$el.find("input[name='party_date']").val(),
+                        party_time: partyView.$el.find("input[name='party_time']").val(),
+                        party_where: partyView.$el.find("input[name='party_where']").val()
+                    });
+                    //tempParty.set({id : this.collection.size()+1});
+                    console.log(tempParty);
+
+                    this.collection.add(tempParty);
+                    console.log(this.collection);
+
+                    //$(this.el).jqGrid("addRowData", tempParty.get('id'), tempParty.toJSON());
+                    $("#partiesGrid").jqGrid('addRowData', tempParty.get('id'), tempParty.toJSON()); 
+                });
+
+                //$("#partiesGrid").jqGrid('addRowData', 0, {party_theme: "no parties"});
+                //$(this.el).html(person.get("name") + " hasn't added a party yet!");
             }
 
             return this; //enable chaining
@@ -99,6 +135,19 @@ define([
                 $("#partiesGrid").jqGrid('addRowData', tempParty.get('id'), tempParty.toJSON()); 
             });
 
+        },
+        addAParty: function(m){
+            console.log("addParty captured");
+            
+            var tempParty = new Party(m);
+            tempParty.set({id : this.collection.size()+1});
+            console.log(tempParty);
+
+            this.collection.add(tempParty);
+            console.log(this.collection);
+
+            //$(this.el).jqGrid("addRowData", tempParty.get('id'), tempParty.toJSON());
+            $("#partiesGrid").jqGrid('addRowData', tempParty.get('id'), tempParty.toJSON()); 
         }
 
     });
