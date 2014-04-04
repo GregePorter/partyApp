@@ -10,8 +10,8 @@ define([
             id : "",
             person_id: "",
             party_theme: "New Party",
-            party_date: "",
-            party_time: "",
+            party_date: moment().format('D/M/YYYY'),
+            party_time: moment().format('h:mm'),
             party_where: ""
         },
         initialize : function () {

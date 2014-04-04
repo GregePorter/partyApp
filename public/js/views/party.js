@@ -25,6 +25,7 @@ define([
             $(this.el).html(Templates.templateParty(this.model.toJSON()));
             this.$("#date_input").attr("readonly", true).css("background", "white").datepicker({changeYear:true, changeMonth:true,yearRange:"1950:2020"});
             this.$("#time_input").timepicker({ 'step': 15, 'timeFormat': 'h:i A' });
+
             if (this.model.has('newParty')) {
                 this.$(".save").remove();
                 this.model.unset('newParty', {"silent" : true});

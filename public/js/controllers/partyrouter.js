@@ -16,7 +16,6 @@ define([
 		team : {},
 		teamView : {},
 		parties : {},
-		numParties : [],
 		partiesView : null,
 		initialize : function(teamCol, partiesCol) {
 			this.team = new Team(teamCol[0]);
